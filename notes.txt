@@ -1,0 +1,28 @@
+1 describe, 
+2 info ,
+3  find null values,
+4  name of colums,
+
+5  graph pie chart show fiction vs non fiction,
+
+6  total year by year ratio of fiction and non fiction(bar chart or pie chart), 
+
+7 show best selling book ,
+
+8  show how many time book appear,(bar) , 
+
+9 best seller book, author,(for both fiction and non fiction), in which yeaer whivh book or author is popular.
+
+10 author wise rating 
+
+11 histogram of all categorical coloumn
+
+12 price vs rating (Scatter plot)ie trend line
+
+13 top rated books
+
+14 top rated reviews
+
+15 box plot of all categorical coloumns
+
+16 price wise fiction vs non fiction (line chart)
