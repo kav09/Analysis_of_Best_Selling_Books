@@ -4,12 +4,13 @@ import pandas as pd
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
+from visualization import plot
 
 engine = create_engine('sqlite:///db.sqlite3')
 Session = sessionmaker(bind=engine)
 sess = Session()
 
-df = pd.read_csv('bestsellers with categories.csv')
+df = pd.read_csv('dataset/bestsellers with categories.csv')
 
 
 st.title('Analysis of Best Selling Books')
@@ -24,6 +25,9 @@ st.dataframe(df)
 sidebar = st.sidebar
 
 def ViewForm():
+
+    st.plotly_chart(plot())
+
     title = st.text_input("Report Title")
     desc = st.text_area('Report Description')
     btn = st.button('Submit')
@@ -35,6 +39,9 @@ def ViewForm():
         st.success('Report Saved')
 
 def ViewReport():
+
+    
+
     reports =sess.query(Report).all()
     titleslist = [report.title for report in reports]
     selReport = st.selectbox(options = titleslist , label = "Select Report")
