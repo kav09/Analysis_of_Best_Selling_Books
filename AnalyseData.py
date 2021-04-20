@@ -3,10 +3,10 @@ import pandas as pd
 class Analyse:
     def __init__(self, path = "dataset/bestsellers with categories.csv"):
         self.booklist = pd.read_csv(path)
-        #self.cleanData()
+        self.cleanData()
 
-    #def cleanData(self):
-        #self.df
+    def cleanData(self):
+        self.booklist.set_index('Name', inplace=True)
 
     def getCategories(self):
         self.fic = self.booklist[self.booklist['Genre']=='Fiction']
@@ -15,3 +15,7 @@ class Analyse:
        
         #self.t_genre = self.booklist.groupby('Genre').count()
         #return self.t_genre['Total'] 
+
+    def getFictionPerYear(self):
+        fic = self.booklist[self.booklist['Genre']=='Fiction']
+        return fic.groupby('Year').count()['Genre']
