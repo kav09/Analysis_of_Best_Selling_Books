@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 from database import Report
 from visualization import plot, plotBar
 from AnalyseData import Analyse
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 engine = create_engine('sqlite:///db.sqlite3')
 Session = sessionmaker(bind=engine)
