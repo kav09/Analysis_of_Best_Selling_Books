@@ -5,7 +5,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
-from visualization import plot, plotBar
+from visualization import plotBar1, plotBar2, plotpie, plotBar3
 from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -48,10 +48,22 @@ def ViewForm():
 #--------------------------------------------------------------------
 def analyse():
 
+    # Fiction vs Non Fiction
+    data = analysis.getFicVsNonFic()
+    st.plotly_chart(plotpie(data.index,data.values))
+
     # fiction books per year
     data = analysis.getFictionPerYear()
-    st.plotly_chart(plotBar(data.index, data.values))
+    st.plotly_chart(plotBar1(data.index, data.values))
 
+    # Non fiction book per year
+    data = analysis.getNonFictionPerYear()
+    st.plotly_chart(plotBar2(data.index, data.values))
+
+    # No of Books published By Author
+    data = analysis.getBooksByAuth()
+    st.plotly_chart(plotBar3(data.index, data.values))
+    
     rpt = st.checkbox('Generate Report')
     if rpt:
         ViewForm()
