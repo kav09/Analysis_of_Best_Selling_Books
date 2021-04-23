@@ -15,16 +15,28 @@ def plotpie(labels,values):
 
 #--------------------------------No Of FICTION BOOK PUBLISHED PER YAER------------------------
 
-def plotBar1(x,y):
+def plotBar(x,y, title, xlabel, ylabel):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
     
-    layout = go.Layout(title= "Number of Fiction Book published per Year.",
-                    xaxis=dict(title='Years'),
-                    yaxis=dict(title='Number of Books Published'))
+    layout = go.Layout(title= title,
+                    xaxis=dict(title=xlabel),
+                    yaxis=dict(title=ylabel))
     fig = go.Figure(layout = layout)
     fig.add_trace( go.Bar(x = x,y= y))
     return fig
 
+def plotGroupedBar(datapoints , categories, title, xlabel, ylabel, colors = ['indianred', 'lightsalmon']):
+    #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
+    
+    layout = go.Layout(title= title,
+                    xaxis=dict(title=xlabel),
+                    yaxis=dict(title=ylabel))
+    fig = go.Figure(layout = layout)
+
+    for category, point, color in zip(categories, datapoints, colors):
+        fig.add_trace( go.Bar(x = point.index,y= point.values, name = category, marker_color = color))
+        
+    return fig
 #------------------------------------------No OF NON FICTION BOOK PUBLISHED PER YEAR
 
 def plotBar2(x,y):

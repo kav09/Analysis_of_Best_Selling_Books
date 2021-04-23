@@ -5,7 +5,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
-from visualization import plotBar1, plotBar2, plotpie, plotBar3
+from visualization import plotBar, plotGroupedBar, plotBar2, plotpie, plotBar3
 from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -54,7 +54,12 @@ def analyse():
 
     # fiction books per year
     data = analysis.getFictionPerYear()
-    st.plotly_chart(plotBar1(data.index, data.values))
+    st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
+
+    # fiction and non-fiction books per year
+    fic_data = analysis.getFictionPerYear()
+    nonfic_data = analysis.getNonFictionPerYear()
+    st.plotly_chart(plotGroupedBar([ nonfic_data, fic_data ], ['Non-Fiction Books', 'Fiction Books'], "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
 
     # Non fiction book per year
     data = analysis.getNonFictionPerYear()
