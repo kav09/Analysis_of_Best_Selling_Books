@@ -51,7 +51,10 @@ class Analyse:
     def getverRating(self):
         return self.booklist[self.booklist['Author']=='Veronica Roth']['User Rating']
 
+    def getAuthorList(self):
+        return self.booklist['Author'].unique()
+
 #______________________________________Review
-    def getverReview(self):
+    def getverReview(self, author):
         
-        return self.booklist[self.booklist['Author']== 'Veronica Roth']['Reviews']
+        return self.booklist[self.booklist['Author']== author]['Reviews']

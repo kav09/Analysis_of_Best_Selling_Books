@@ -88,7 +88,13 @@ def anabyAuthor():
 
     
 def anabyReview():
-    data = analysis.getverReview()
+
+    selAuthor = st.selectbox(options = analysis.getAuthorList(), label = "Select Author to analyse")
+
+    data = analysis.getverReview(selAuthor)
+    st.plotly_chart(plotLine(data.index, data.values,"Reviews of Books of Veronica Roth"))
+
+    data = analysis.getverReview(selAuthor)
     st.plotly_chart(plotLine(data.index, data.values,"Reviews of Books of Veronica Roth"))
 
     rpt = st.checkbox('Generate Report')
