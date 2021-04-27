@@ -83,7 +83,12 @@ def anabyAuthor():
     data = analysis.getan()
     st.plotly_chart(plotLine(data.index, data.values,"User Rating of Jeff Kinney"))
 
-    data = analysis.getric()
+    data = analysis.getverRating()
+    st.plotly_chart(plotLine(data.index, data.values,"User Rating of Veronica Roth"))
+
+    
+def anabyReview():
+    data = analysis.getverReview()
     st.plotly_chart(plotLine(data.index, data.values,"Reviews of Books of Veronica Roth"))
 
     rpt = st.checkbox('Generate Report')
@@ -116,6 +121,8 @@ elif choice == options[1]:
     analyseByGenre()
 elif choice == options[2]:
     anabyAuthor()
+elif choice == options[3]:
+    anabyReview()
 elif choice == options[4]:
     ViewReport()
     

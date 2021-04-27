@@ -48,6 +48,10 @@ class Analyse:
     def getan(self):
         return self.booklist[self.booklist['Author']=='Jeff Kinney']['User Rating']
 
-    def getric(self):
-        #return self.booklist[self.booklist['Author'] == 'Rick Riordan']['User Rating']
+    def getverRating(self):
+        return self.booklist[self.booklist['Author']=='Veronica Roth']['User Rating']
+
+#______________________________________Review
+    def getverReview(self):
+        
         return self.booklist[self.booklist['Author']== 'Veronica Roth']['Reviews']
