@@ -39,3 +39,15 @@ class Analyse:
     def getBooksByAuth(self):
         self.auth = self.booklist.groupby('Author').count()['Price']
         return self.auth.head(20).sort_values(ascending = False)
+
+#____________________________________Author wise Book rating
+    def getauthor(self):
+        self.ath = self.booklist[self.booklist['Author']=='Suzanne Collins']
+        return self.ath['User Rating']
+        
+    def getan(self):
+        return self.booklist[self.booklist['Author']=='Jeff Kinney']['User Rating']
+
+    def getric(self):
+        #return self.booklist[self.booklist['Author'] == 'Rick Riordan']['User Rating']
+        return self.booklist[self.booklist['Author']== 'Veronica Roth']['Reviews']

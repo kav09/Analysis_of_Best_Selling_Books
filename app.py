@@ -5,7 +5,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
-from visualization import plotBar, plotGroupedBar, plotBar2, plotpie, plotBar3
+from visualization import plotBar, plotGroupedBar, plotpie, plotLine
 from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -45,30 +45,47 @@ def ViewForm():
         sess.add(report1)
         sess.commit()
         st.success('Report Saved')
-#--------------------------------------------------------------------
-def analyse():
 
+
+#--------------------------------------------------------------------
+def analyseByGenre():
     # Fiction vs Non Fiction
     data = analysis.getFicVsNonFic()
-    st.plotly_chart(plotpie(data.index,data.values))
-
+    st.plotly_chart(plotpie(data.index,data.values,'Fiction Vs Non Fiction'))
+#--------------------------------------------------------------------
+    col1, col2= st.beta_columns(2)
     # fiction books per year
-    data = analysis.getFictionPerYear()
-    st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
+    with col2:
+        data = analysis.getFictionPerYear()
+        st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
+
+    # Non fiction book per year
+    with col1:
+        data = analysis.getNonFictionPerYear()
+        st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.","Years","No.of Book Published"))
 
     # fiction and non-fiction books per year
     fic_data = analysis.getFictionPerYear()
     nonfic_data = analysis.getNonFictionPerYear()
     st.plotly_chart(plotGroupedBar([ nonfic_data, fic_data ], ['Non-Fiction Books', 'Fiction Books'], "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
 
-    # Non fiction book per year
-    data = analysis.getNonFictionPerYear()
-    st.plotly_chart(plotBar2(data.index, data.values))
 
+def anabyAuthor():
     # No of Books published By Author
     data = analysis.getBooksByAuth()
-    st.plotly_chart(plotBar3(data.index, data.values))
+    st.plotly_chart(plotBar(data.index, data.values, "Number of Book Published","Author","No of Books"))
     
+    #with st.beta_container():
+    
+    data = analysis.getauthor()
+    st.plotly_chart(plotLine(data.index, data.values,"User Rating of Suzanne Collins"))
+        
+    data = analysis.getan()
+    st.plotly_chart(plotLine(data.index, data.values,"User Rating of Jeff Kinney"))
+
+    data = analysis.getric()
+    st.plotly_chart(plotLine(data.index, data.values,"Reviews of Books of Veronica Roth"))
+
     rpt = st.checkbox('Generate Report')
     if rpt:
         ViewForm()
@@ -88,16 +105,17 @@ def ViewReport():
     """
     st.markdown(markdown)
 
-
 sidebar = st.sidebar
 sidebar.header('Choose Your Option')
-options = ['View Dataset', 'Analyze','View Report']
+options = ['View Dataset', 'Analyze By Genre','Analyze By Author','Analyze By Reviews','View Report']
 choice = sidebar.selectbox(options= options, label= "Choose Action")
 
 if choice == options[0]:
     viewDataset(['dataset/bestsellers with categories.csv'])
 elif choice == options[1]:
-    analyse()
+    analyseByGenre()
 elif choice == options[2]:
+    anabyAuthor()
+elif choice == options[4]:
     ViewReport()
     
