@@ -49,11 +49,12 @@ class Analyse:
     def getAuthorList(self):
         return self.booklist['Author'].unique()
 
-    def getTopRateAuth(self):
-        return self.booklist.groupby('Author').mean()['User Rating'].sort_values(ascending = False)
+    def getTopRateAuth(self, n):
+        ratingCount = self.booklist.groupby('Author').count()
+        return ratingCount[ratingCount['User Rating'] > n].index
         
     def getTopReviewAuth(self):
-        return self.booklist.groupby('Author').mean()['Reviews'].head(10).sort_values(ascending = False)
+        return self.booklist.groupby('Author').mean()['Reviews'].head(10).sort_values(ascending = False).index
 
     def getverRating(self, author):
         return self.booklist[self.booklist['Author']==author]['User Rating']

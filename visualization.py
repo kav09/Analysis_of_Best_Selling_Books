@@ -51,8 +51,17 @@ def plotLine(x,y,title):
     return fig
 
 #--------------------------------
-def plotHistogram(x,y,title):
-    layout = go.Layout(title =title)
+
+def plotHistogram(datapoints, title, xlabel, ylabel):
+    layout = go.Layout(title= title,
+                    xaxis=dict(title=xlabel),
+                    yaxis=dict(title=ylabel))
     fig = go.Figure(layout = layout)
-    fig.add_trace(go.Histogram(x=x,y=y))
+
+    fig.update_layout(template="plotly_dark")
+    fig.add_trace(go.Histogram(
+        x = datapoints.values,
+        # xbins = {'start': 1, 'size': 0.1, 'end' : 5}
+    ))
+
     return fig

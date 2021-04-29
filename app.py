@@ -92,7 +92,9 @@ def analysebyAuthor():
                     st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
 
     if st.checkbox('View By Top Rated Authors'):
-        toprateauthor = st.selectbox(options = analysis.getTopRateAuth(), label = "Select Author to analyse")
+        n = st.select_slider(options = [5, 10, 15], label ='Author having No. of Rating')
+        toprateauthor = st.selectbox(options = analysis.getTopRateAuth(n), label = "Select Author to analyse")
+        
 
         with st.beta_container():
             col1 , col2 = st.beta_columns(2)
@@ -147,7 +149,7 @@ def analysebyReview():
 
 def analyseByPrice():
     data = analysis.getprice()
-    st.plotly_chart(plotHistogram(data.index,data.values,"Price of Books"))
+    st.plotly_chart(plotHistogram(data,"Price of Books", '', ''))
 
 
 
