@@ -5,7 +5,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
-from visualization import plotBar, plotGroupedBar, plotpie, plotLine
+from visualization import plotBar, plotGroupedBar, plotpie, plotLine, plotHistogram
 from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -32,7 +32,7 @@ def viewDataset(pathlist):
     if selDataset:
         df = pd.read_csv(selDataset)
         st.dataframe(df)
-
+    
 
 def ViewForm():
 
@@ -70,32 +70,87 @@ def analyseByGenre():
     st.plotly_chart(plotGroupedBar([ nonfic_data, fic_data ], ['Non-Fiction Books', 'Fiction Books'], "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
 
 
-def anabyAuthor():
-    # No of Books published By Author
+def analysebyAuthor():
+
+    # No of Books published By Authors
     data = analysis.getBooksByAuth()
     st.plotly_chart(plotBar(data.index, data.values, "Number of Book Published","Author","No of Books"))
+
+    # Author List
+    if st.checkbox("VIEW ALL AUTHORS lIST"):
+        selAuthor = st.selectbox(options = analysis.getAuthorList(), label = "Select Author to analyse")
+
+        with st.beta_container():
+                col1 , col2 = st.beta_columns(2)
+                with col1:
+                    # Particular Author and its Review
+                    data = analysis.getverReview(selAuthor)
+                    st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
+                with col2:
+                # Particular Name of Author and its User RAting
+                    data = analysis.getverRating(selAuthor)
+                    st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
+
+    if st.checkbox('View By Top Rated Authors'):
+        toprateauthor = st.selectbox(options = analysis.getTopRateAuth(), label = "Select Author to analyse")
+
+        with st.beta_container():
+            col1 , col2 = st.beta_columns(2)
+            with col1:
+                    # Particular Author and its Review
+                data = analysis.getverReview(toprateauthor)
+                st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
+            with col2:
+                # Particular Name of Author and its User RAting
+                data = analysis.getverRating(toprateauthor)
+                st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
+
+
+    if st.checkbox('View By Top Review Author'):
+        toprevauthor = st.selectbox(options = analysis.getTopReviewAuth(),label = "Select Author")
+
+        with st.beta_container():
+            col1 , col2 = st.beta_columns(2)
+            with col1:
+                    # Particular Author and its Review
+                data = analysis.getverReview(toprevauthor)
+                st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
+            with col2:
+                # Particular Name of Author and its User RAting
+                data = analysis.getverRating(toprevauthor)
+                st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
     
-    #with st.beta_container():
+#---------------------------------------------------
     
-    data = analysis.getauthor()
-    st.plotly_chart(plotLine(data.index, data.values,"User Rating of Suzanne Collins"))
-        
-    data = analysis.getan()
-    st.plotly_chart(plotLine(data.index, data.values,"User Rating of Jeff Kinney"))
-
-    data = analysis.getverRating()
-    st.plotly_chart(plotLine(data.index, data.values,"User Rating of Veronica Roth"))
-
     
-def anabyReview():
+    
+def analysebyReview():
 
-    selAuthor = st.selectbox(options = analysis.getAuthorList(), label = "Select Author to analyse")
+    data = analysis.getReview()
+    st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
 
-    data = analysis.getverReview(selAuthor)
-    st.plotly_chart(plotLine(data.index, data.values,"Reviews of Books of Veronica Roth"))
+    booklist = st.selectbox(options = analysis.getName(), label = "Select Book Name to analyse")
 
-    data = analysis.getverReview(selAuthor)
-    st.plotly_chart(plotLine(data.index, data.values,"Reviews of Books of Veronica Roth"))
+
+    #data = analysis.getverReview(booklist)
+    #st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
+
+    #data = analysis.getverReview(selAuthor)
+    #st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
+
+    #data = analysis.getverRating(selAuthor)
+    #st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
+
+
+#________________________________________________________
+
+
+def analyseByPrice():
+    data = analysis.getprice()
+    st.plotly_chart(plotHistogram(data.index,data.values,"Price of Books"))
+
+
+
 
     rpt = st.checkbox('Generate Report')
     if rpt:
@@ -118,7 +173,7 @@ def ViewReport():
 
 sidebar = st.sidebar
 sidebar.header('Choose Your Option')
-options = ['View Dataset', 'Analyze By Genre','Analyze By Author','Analyze By Reviews','View Report']
+options = ['View Dataset', 'Analyze By Genre','Analyze By Author','Analyze By Reviews','Analyse By Price','View Report']
 choice = sidebar.selectbox(options= options, label= "Choose Action")
 
 if choice == options[0]:
@@ -126,9 +181,11 @@ if choice == options[0]:
 elif choice == options[1]:
     analyseByGenre()
 elif choice == options[2]:
-    anabyAuthor()
+    analysebyAuthor()
 elif choice == options[3]:
-    anabyReview()
+    analysebyReview()
 elif choice == options[4]:
+    analyseByPrice()
+elif choice == options[5]:
     ViewReport()
     

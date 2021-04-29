@@ -49,3 +49,10 @@ def plotLine(x,y,title):
     fig = go.Figure(layout = layout)
     fig.add_trace(go.Line(x=x,y=y))
     return fig
+
+#--------------------------------
+def plotHistogram(x,y,title):
+    layout = go.Layout(title =title)
+    fig = go.Figure(layout = layout)
+    fig.add_trace(go.Histogram(x=x,y=y))
+    return fig
