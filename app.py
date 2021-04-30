@@ -5,7 +5,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
-from visualization import plotBar, plotGroupedBar, plotpie, plotLine, plotHistogram, plotSubplot
+from visualization import *
 from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -52,8 +52,11 @@ def analyseByGenre():
     import seaborn as sns
     sns.set_style('whitegrid')
 
-    data = analysis.ficAndNonFic()
-    st.plotly_chart(plotSubplot(data.index,data.values))
+    # data = analysis.ficAndNonFic()
+    # plot1 = plotBar(data.index, data.values, 'Plot 1', 'xlabel', 'ylabel')
+    # plot2 = plotBar(data.index, data.values, 'Plot 2', 'xlabel', 'ylabel')
+    
+    # st.plotly_chart(plotSubplot(1, 2, [plot1, plot2]))
 
     st.header('Fiction Vs Non Fiction')
     col1, col2= st.beta_columns(2)
