@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 #-------------------------------------------Plot Pie Chart--------------------
 
 def plotpie(labels,values,title):
-    layout = go.Layout(title = title)
+    layout = go.Layout(title = title) #color_continuous_scale='inferno'
     fig = go.Figure(layout= layout)
     for template in ["plotly", "plotly_white", "plotly_dark", "ggplot2", "seaborn", "simple_white", "none"]:
         fig.update_layout(template=template)
@@ -17,12 +17,12 @@ def plotpie(labels,values,title):
 
 #--------------------------------Plot Bar Chart------------------------
 
-def plotBar(x,y, title, xlabel, ylabel):
+def plotBar(x,y, title, xlabel, ylabel, width , height):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
     
     layout = go.Layout(title= title,
                     xaxis=dict(title=xlabel),
-                    yaxis=dict(title=ylabel))
+                    yaxis=dict(title=ylabel),width = width, height= height)
     fig = go.Figure(layout = layout)
     for template in ["plotly_dark"]:
         fig.update_layout(template=template)
@@ -64,4 +64,9 @@ def plotHistogram(datapoints, title, xlabel, ylabel):
         # xbins = {'start': 1, 'size': 0.1, 'end' : 5}
     ))
 
+    return fig
+
+def plotSubplot(row, col):
+    fig = go.Figure()
+    fig.add_trace(go.make_subplots(row =row,col = col))
     return fig
