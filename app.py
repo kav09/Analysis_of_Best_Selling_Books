@@ -5,7 +5,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from database import Report
-from visualization import plotBar, plotGroupedBar, plotpie, plotLine, plotHistogram
+from visualization import plotBar, plotGroupedBar, plotpie, plotLine, plotHistogram, plotSubplot
 from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -49,32 +49,46 @@ def ViewForm():
 
 #--------------------------------------------------------------------
 def analyseByGenre():
+    import seaborn as sns
+    sns.set_style('whitegrid')
+
+    data = analysis.ficAndNonFic()
+    st.plotly_chart(plotSubplot(data.index,data.values))
+
+    st.header('Fiction Vs Non Fiction')
+    col1, col2= st.beta_columns(2)
+    with col1:
     # Fiction vs Non Fiction
-    data = analysis.getFicVsNonFic()
-    st.plotly_chart(plotpie(data.index,data.values,'Fiction Vs Non Fiction'))
+        data = analysis.getFicVsNonFic()
+        st.plotly_chart(plotpie(data.index,data.values,''))
+    with col2:
+        data = analysis.getFicVsNonFic()
+        st.plotly_chart(plotBar(data.index, data.values,"","Genre","No Of Books",350,450))    
 #--------------------------------------------------------------------
+    st.header('Number of Fiction and Non FIction Books Published Per Year')
     col1, col2= st.beta_columns(2)
     # fiction books per year
-    with col2:
+    with col1:
         data = analysis.getFictionPerYear()
-        st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
+        st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published',550,400))
 
     # Non fiction book per year
-    with col1:
+    with col2:
         data = analysis.getNonFictionPerYear()
-        st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.","Years","No.of Book Published"))
+        st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.","Years","No.of Book Published",550,400))
 
     # fiction and non-fiction books per year
+    st.header('Comparision of Number of Fiction and Non FIction Books Published Per Year')
     fic_data = analysis.getFictionPerYear()
     nonfic_data = analysis.getNonFictionPerYear()
-    st.plotly_chart(plotGroupedBar([ nonfic_data, fic_data ], ['Non-Fiction Books', 'Fiction Books'], "Number of Fiction Book published per Year.", "Years", 'No. of Books Published'))
+    st.plotly_chart(plotGroupedBar([ nonfic_data, fic_data ], ['Non-Fiction Books', 'Fiction Books'], "", "Years", 'No. of Books Published'))
 
 
 def analysebyAuthor():
 
     # No of Books published By Authors
     data = analysis.getBooksByAuth()
-    st.plotly_chart(plotBar(data.index, data.values, "Number of Book Published","Author","No of Books"))
+    st.plotly_chart(plotBar(data.index, data.values, "Number of Book Published","Author","No of Books",800,500))
 
     # Author List
     if st.checkbox("VIEW ALL AUTHORS lIST"):
@@ -109,6 +123,7 @@ def analysebyAuthor():
 
 
     if st.checkbox('View By Top Review Author'):
+        #n = st.select_slider(options = [100,1500,2000], label ='Author having No. of Rating')
         toprevauthor = st.selectbox(options = analysis.getTopReviewAuth(),label = "Select Author")
 
         with st.beta_container():
@@ -151,7 +166,8 @@ def analyseByPrice():
     data = analysis.getprice()
     st.plotly_chart(plotHistogram(data,"Price of Books", '', ''))
 
-
+    data = analysis.getprice()
+    st.plotly_chart(plotBar(data.index,data.values,"Price of Books", '', '',700,900))
 
 
     rpt = st.checkbox('Generate Report')

@@ -77,5 +77,8 @@ class Analyse:
         return self.booklist.index.unique()
 
     def getprice(self):
-        return self.booklist['Price'].head(20).sort_values(ascending = False)
+        return self.booklist['Price'].sort_values(ascending = False).head(100)
     
+
+    def ficAndNonFic(self):
+        return self.booklist.groupby(['Year','Genre']).count().unstack()['Price']
