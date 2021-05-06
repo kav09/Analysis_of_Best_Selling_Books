@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+import plotly.express as px
 
 #def plot():
     #fig = go.Figure()
@@ -10,23 +11,24 @@ import plotly.graph_objects as go
 def plotpie(labels,values,title):
     layout = go.Layout(title = title) #color_continuous_scale='inferno'
     fig = go.Figure(layout= layout)
-    for template in ["plotly", "plotly_white", "plotly_dark", "ggplot2", "seaborn", "simple_white", "none"]:
+    for template in [ "ggplot2"]:
         fig.update_layout(template=template)
     fig.add_trace(go.Pie(labels=labels,values=values))
     return fig
 
 #--------------------------------Plot Bar Chart------------------------
 
-def plotBar(x,y, title, xlabel, ylabel, width , height):
+def plotBar(x,y, title, xlabel, ylabel, width , height,template= "plotly_dark"):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
     
     layout = go.Layout(title= title,
                     xaxis=dict(title=xlabel),
-                    yaxis=dict(title=ylabel),width = width, height= height)
+                    yaxis=dict(title=ylabel),width = width, height= height,template= template)
     fig = go.Figure(layout = layout)
-    for template in ["plotly_dark"]:
-        fig.update_layout(template=template)
-    fig.add_trace( go.Bar(x = x,y= y))
+    #for template in ["plotly_dark"]:
+       # fig.update_layout(template=template)
+    fig.add_trace( go.Bar(x = x,y= y, marker = dict(color = 'rgb(255,178,0)',
+                              line=dict(color='rgb(0,0,0)',width=1.5))))
     return fig
 
 #-------------------------------Plot GroupBAR Chart-----------------------
@@ -69,4 +71,21 @@ def plotHistogram(datapoints, title, xlabel, ylabel):
 def plotSubplot(row, col):
     fig = go.Figure()
     fig.add_trace(go.make_subplots(row =row,col = col))
+    return fig
+
+# def plotScatter(x,y):
+#     #fig = go.Figure()
+#     trace=go.Scatter(x=x,y=y)
+#     booklist = [trace]
+#     return booklist
+
+def plotScatter(data,x , y,color,title,template= "plotly_white"): 
+    fig = px.scatter(data_frame= data, x= x, y=y,color= color,title=title)
+
+    fig.update_traces(marker=dict(size=12,
+                                line=dict(width=2,
+                                            color='DarkSlateGrey')),
+                    selector=dict(mode='markers'))
+    fig.update_layout(width = 1000, height = 500,template = template)
+
     return fig
