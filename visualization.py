@@ -1,5 +1,9 @@
 import plotly.graph_objects as go
+<<<<<<< HEAD
 import plotly.express as px
+=======
+from plotly.subplots import make_subplots
+>>>>>>> 315cd20286425bd4538431717f806430cb9e279d
 
 #def plot():
     #fig = go.Figure()
@@ -18,7 +22,11 @@ def plotpie(labels,values,title):
 
 #--------------------------------Plot Bar Chart------------------------
 
+<<<<<<< HEAD
 def plotBar(x,y, title, xlabel, ylabel, width , height,template= "plotly_dark"):
+=======
+def plotBar(x,y, title, xlabel, ylabel, width = 350 , height = 450):
+>>>>>>> 315cd20286425bd4538431717f806430cb9e279d
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
     
     layout = go.Layout(title= title,
@@ -68,9 +76,13 @@ def plotHistogram(datapoints, title, xlabel, ylabel):
 
     return fig
 
-def plotSubplot(row, col):
-    fig = go.Figure()
-    fig.add_trace(go.make_subplots(row =row,col = col))
+def plotSubplot(rows, cols, plots):
+
+    fig = make_subplots(rows=rows, cols=cols)
+    for row in range(rows):
+        for col in range(cols):
+            print(row*col+col+1)
+            fig.add_trace(plots[row*col+col+1], row=row+1, col=col+1)
     return fig
 
 # def plotScatter(x,y):

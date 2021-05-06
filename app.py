@@ -103,6 +103,7 @@ def ViewForm():
 
 #--------------------------------------------------------------------
 def analyseByGenre():
+<<<<<<< HEAD
     #import seaborn as sns
     #sns.set_style('whitegrid')
     #data = analysis.ficAndNonFic()
@@ -120,6 +121,16 @@ def analyseByGenre():
             data = analysis.getFicVsNonFic()
             st.plotly_chart(plotBar(data.index, data.values,"","Genre","No Of Books",350,450)) 
         
+=======
+    import seaborn as sns
+    sns.set_style('whitegrid')
+
+    # data = analysis.ficAndNonFic()
+    # plot1 = plotBar(data.index, data.values, 'Plot 1', 'xlabel', 'ylabel')
+    # plot2 = plotBar(data.index, data.values, 'Plot 2', 'xlabel', 'ylabel')
+    
+    # st.plotly_chart(plotSubplot(1, 2, [plot1, plot2]))
+>>>>>>> 315cd20286425bd4538431717f806430cb9e279d
 
     
 #--------------------------------------------------------------------
