@@ -65,6 +65,9 @@ def viewDataset(pathlist):
             cols[2].markdown('#### Type :')
             cols[3].markdown(f"## {t}")
             st.markdown("___")
+
+
+
     # if st.checkbox("View Description"):
     #     #if st.checkbox('Numerical Desciption'):
     #     st.subheader('Numerical Desciption')
@@ -95,6 +98,7 @@ def ViewForm():
 
 
 #--------------------------------------------------------------------
+
 def analyseByGenre():
     #import seaborn as sns
     #sns.set_style('whitegrid')
@@ -130,8 +134,12 @@ def analyseByGenre():
             data = analysis.getNonFictionPerYear()
             st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.","Years","No.of Book Published",550,400))
 
+#-----------------------------------------------------------------------------
+
     st.markdown("___")
+
     # fiction and non-fiction books per year
+
     if st.checkbox('Comparision of Genre'):
         col1 , col2 = st.beta_columns(2)
         with col1:
@@ -162,6 +170,8 @@ def analyseByGenre():
             st.plotly_chart(plotGroupedBar([ nonfic_data4, fic_data4 ], ['Non-Fiction Books', 'Fiction Books'], "Average Price By Gener Over Year", "Years", 'Average Review'))
             st.markdown("___")
 
+#----------------------------------------------Author
+
 def analysebyAuthor():
 
     # No of Books published By Authors
@@ -184,6 +194,7 @@ def analysebyAuthor():
                 # Particular Name of Author and its User RAting
                     data = analysis.getverRating(selAuthor)
                     st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
+
 
     if st.checkbox('View By Top Rated Authors'):
         n = st.select_slider(options = [5, 10, 15], label ='Author having No. of Rating')
@@ -208,14 +219,17 @@ def analysebyAuthor():
 
         with st.beta_container():
             col1 , col2 = st.beta_columns(2)
+
             with col1:
                     # Particular Author and its Review
                 data = analysis.getverReview(toprevauthor)
                 st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
+
             with col2:
                 # Particular Name of Author and its User RAting
                 data = analysis.getverRating(toprevauthor)
                 st.plotly_chart(plotLine(data.index, data.values,"User Rating"))
+
 
     st.markdown("___")
     
@@ -242,9 +256,9 @@ def analysebyReview():
     data = analysis.getReview()
     st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
 
+
+
     #booklist = st.selectbox(options = analysis.getName(), label = "Select Book Name to analyse")
-
-
     #data = analysis.getverReview(booklist)
     #st.plotly_chart(plotLine(data.index, data.values,"Reviews"))
 
@@ -281,14 +295,17 @@ def analyseByPrice():
     #--------------------------------------FreeBooks
     st.subheader("Free BestSeller Books")
     cols = st.beta_columns(2)
+
     with cols[0]:
         st.subheader("Pie Chart")
         data = analysis.freebooks()
         st.plotly_chart(plotpie(data.index,data.values,'')) 
+    
     with cols[1]:
         st.subheader("Bar Chart")
         data = analysis.freebooks()
         st.plotly_chart(plotBar(data.index,data.values,'','','',500,450)) 
+    
     st.text('Maximum Number of Books Published Free Is Of Fiction Category, that is, 11 books.')
     
     
@@ -306,11 +323,15 @@ def analysebyYear():
     st.plotly_chart(plotHistogram(data,"Average Review Over Years", 'Year', 'Average Review'))
 
     st.subheader("Average Review Over Years")
+    
     #if st.checkbox("Select Chart To View Average Review Over Years"):
+    
     col1, col2 = st.beta_columns(2)
+    
     with col1:
         data = analysis.avgRevOverYear()
         st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Review',700,450))
+    
     with col2:
         #if st.checkbox('Line Chart of Average Review Over Year'):
         data = analysis.avgRevOverYear()
@@ -319,12 +340,16 @@ def analysebyYear():
     st.markdown("___")
 
     st.subheader("Average Price Over Years")
+    
     #if st.checkbox("Select Chart To View Average Price Over Years"):
+    
     col3, col4 = st.beta_columns(2)
+    
     with col3:
         #if st.checkbox('Bar Chart of Average Price Over Years'):
         data = analysis.avgPriceOverYear()
         st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Price',700,450))
+    
     with col4:
         #if st.checkbox('Line Chart of Average Price Over Years'):
         data = analysis.avgPriceOverYear()
@@ -333,12 +358,16 @@ def analysebyYear():
     st.markdown("___")
 
     st.subheader("Average Rating Over Years")
+    
     #if st.checkbox("Select Charts To View Average Rating Over Years"):
+    
     col5, col6 = st.beta_columns(2)
+    
     with col5:
             #if st.checkbox('Bar Chart of Average Rating Over Years'):
         data = analysis.avgRatingOverYear()
         st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Rating',700,450))
+    
     with col6:
             #if st.checkbox('Line Chart of Average Rating Over Years'):
         data = analysis.avgRatingOverYear()

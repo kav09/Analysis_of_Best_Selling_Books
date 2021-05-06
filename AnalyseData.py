@@ -35,6 +35,9 @@ class Analyse:
         return self.booklist.groupby('Genre').count()['Price']
         #return self.t_genre['Price']
 
+    def ficAndNonFic(self):
+        return self.booklist.groupby(['Year','Genre']).count().unstack()['Price']
+
 #___________________________________Fiction Book per year_____________________________
 
     def getFictionPerYear(self):
@@ -124,8 +127,7 @@ class Analyse:
     #     priceCount = self.booklist.groupby('Author').count()
     #     return priceCount[priceCount['Price'] > n].index
 
-    def ficAndNonFic(self):
-        return self.booklist.groupby(['Year','Genre']).count().unstack()['Price']
+    
 
     def freebooks(self):
         df=self.booklist[self.booklist['Price']==0]
@@ -154,6 +156,8 @@ class Analyse:
 
     def avgRatingOverYear(self):
         return self.booklist.groupby('Year').mean()['User Rating']
+
+
 
     #AVG. PRICE-AVG. RATINGS RELATIONSHIP OF TOP 10 AUTHORS WITH HIGHEST AVG. PRICED BESTSELLERS
     def avgPrice_Ratingrelation(self):
