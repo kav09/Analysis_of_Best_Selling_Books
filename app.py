@@ -79,14 +79,7 @@ def viewDataset(pathlist):
     #      data = analysis.viewTop50()
     #      st.dataframe(data)
 
-    # data =  analysis.avgPrice_Ratingrelation()
-    # st.plotly_chart(plotScatter(data,x='User Rating', y= 'Price',color= 'Author',title = 'AVG. PRICE-AVG. RATINGS RELATIONSHIP OF TOP 50 AUTHORS WITH HIGHEST AVG. PRICED BESTSELLERS'))
-
-    # data =  analysis.avgPrice_Reviewrelation()
-    # st.plotly_chart(plotScatter(data,x='User Rating', y= 'Reviews',color= 'Author',title = 'AVG. PRICE-AVG. RATINGS RELATIONSHIP OF TOP 50 AUTHORS WITH HIGHEST AVG. PRICED BESTSELLERS'))
-
-    # data =  analysis.avgindex()
-    # st.plotly_chart(plotScatter(data, x = 'Price', y='Reviews', color= 'Author',title = 'AVG. PRICE-AVG. RATINGS RELATIONSHIP OF TOP 50 AUTHORS WITH HIGHEST AVG. PRICED BESTSELLERS'))
+    
 
 def ViewForm():
 
@@ -103,7 +96,6 @@ def ViewForm():
 
 #--------------------------------------------------------------------
 def analyseByGenre():
-<<<<<<< HEAD
     #import seaborn as sns
     #sns.set_style('whitegrid')
     #data = analysis.ficAndNonFic()
@@ -121,16 +113,6 @@ def analyseByGenre():
             data = analysis.getFicVsNonFic()
             st.plotly_chart(plotBar(data.index, data.values,"","Genre","No Of Books",350,450)) 
         
-=======
-    import seaborn as sns
-    sns.set_style('whitegrid')
-
-    # data = analysis.ficAndNonFic()
-    # plot1 = plotBar(data.index, data.values, 'Plot 1', 'xlabel', 'ylabel')
-    # plot2 = plotBar(data.index, data.values, 'Plot 2', 'xlabel', 'ylabel')
-    
-    # st.plotly_chart(plotSubplot(1, 2, [plot1, plot2]))
->>>>>>> 315cd20286425bd4538431717f806430cb9e279d
 
     
 #--------------------------------------------------------------------
