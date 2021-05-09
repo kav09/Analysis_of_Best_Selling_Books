@@ -14,16 +14,28 @@ engine = create_engine('sqlite:///db.sqlite3')
 Session = sessionmaker(bind=engine)
 sess = Session()
 
+st.set_page_config(layout="wide")
+
 analysis = Analyse()
 
 df = pd.read_csv('dataset/bestsellers with categories.csv')
 
 #______________________________________________________________HEADER
-col1 ,col2 = st.beta_columns(2)
-with col1:
-    st.image('bf.png')
-with col2: 
-    st.title(' Analysis of Best Selling Books')
+
+with st.spinner("Loading Data..."):
+    st.markdown('<h1  style = " font-family: Book Antiqua ;letter-spacing:.1px;word-spacing:1px; color :#e67363; text-shadow: 1px -1px 1px white, 1px -2px 2px white;"> Analysis of Best Selling Books  </h1> <img src="" />' , unsafe_allow_html=True)
+    col1 ,col2= st.beta_columns([5,10])
+
+    with col1:
+
+        st.image('images/4.gif')
+    with col2: 
+        
+        col = st.beta_container()
+
+        with col:
+            st.markdown('<p style="margin-top: 10%;letter-spacing:.1px;word-spacing:1px;color:indianred;margin-left:5%;">Hey There! <br> Welcome To My App. This App is all about Analyzing the Top BestSelling Books of Year 2009 to 2019. <br>We will be analyzing the Best Books on the basis of Reviews, Price, Rating, and the Author who had written it.<br>Our motive is to give you best idea about the trend going on. What people are liking and What they want to read in future. <br>One last tip, if you are on a mobile device, switch over to landscape for viewing ease. Give it a go! </p>',unsafe_allow_html=True)
+    
 st.markdown("---")
 st.markdown("")
 
@@ -40,6 +52,7 @@ def viewDataset(pathlist):
 
 
     with st.spinner("Loading Data..."):
+        st.subheader("DataSet Used In This Projecyt")
         st.dataframe(df)
 
         st.markdown('---')
@@ -105,17 +118,19 @@ def analyseByGenre():
     #data = analysis.ficAndNonFic()
     #st.plotly_chart(plotSubplot(data.index,data.values))
 
-
-    if st.checkbox("Fiction Vs Non Fiction"):
-        st.write("#### **NON-FICTION BESTSELLERS ARE MORE THAN FICTION**") 
-        col1, col2= st.beta_columns(2)
-        with col1:
-            # Fiction vs Non Fiction
-            data = analysis.getFicVsNonFic()
-            st.plotly_chart(plotpie(data.index,data.values,'')) 
-        with col2:
-            data = analysis.getFicVsNonFic()
-            st.plotly_chart(plotBar(data.index, data.values,"","Genre","No Of Books",350,450)) 
+    with st.spinner("Loading Data..."):
+        if st.checkbox("Fiction Vs Non Fiction"):
+            st.write("#### **NON-FICTION BESTSELLERS ARE MORE THAN FICTION**") 
+            col1, col2= st.beta_columns(2)
+            with col1:
+                with st.spinner("Loading Data..."):
+                # Fiction vs Non Fiction
+                    data = analysis.getFicVsNonFic()
+                    st.plotly_chart(plotpie(data.index,data.values,'',"seaborn")) 
+            with col2:
+                with st.spinner("Loading Data..."):
+                    data = analysis.getFicVsNonFic()
+                    st.plotly_chart(plotBar(data.index, data.values,"","Genre","No Of Books",350,450,"ggplot2")) 
         
 
     
@@ -132,7 +147,7 @@ def analyseByGenre():
         # Non fiction book per year
         with col2:
             data = analysis.getNonFictionPerYear()
-            st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.","Years","No.of Book Published",550,400))
+            st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.","Years","No.of Book Published",550,400,"ggplot2"))
 
 #-----------------------------------------------------------------------------
 
@@ -348,7 +363,7 @@ def analysebyYear():
     with col3:
         #if st.checkbox('Bar Chart of Average Price Over Years'):
         data = analysis.avgPriceOverYear()
-        st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Price',700,450))
+        st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Price',700,450,"plotly_dark"))
     
     with col4:
         #if st.checkbox('Line Chart of Average Price Over Years'):
@@ -366,7 +381,7 @@ def analysebyYear():
     with col5:
             #if st.checkbox('Bar Chart of Average Rating Over Years'):
         data = analysis.avgRatingOverYear()
-        st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Rating',700,450))
+        st.plotly_chart(plotBar(data.index,data.values,"Bar Chart", 'Year', 'Average Rating',700,450,"seaborn"))
     
     with col6:
             #if st.checkbox('Line Chart of Average Rating Over Years'):
@@ -381,8 +396,8 @@ def analysebyRating():
     st.plotly_chart(plotHistogram(data,"Average Rating", 'Year', 'Average Review'))
 
     data = analysis.getCountRate()
-    st.plotly_chart(plotBar(data.index, data.values, "Count Rating.","User Rating","Count(How many times apper)",550,400))
-    st.write("***MOST OF THE RATINGS ARE IN THE RANGE OF 4.6 TO 4.8***")
+    st.plotly_chart(plotBar(data.index, data.values, "Count Rating.","User Rating","Count(How many times apper)",550,400,"ggtplot2"))
+    st.text("***MOST OF THE RATINGS ARE IN THE RANGE OF 4.6 TO 4.8***")
 
 
 def ViewReport():
@@ -400,7 +415,12 @@ def ViewReport():
     """
     st.markdown(markdown)
 
+
+
 sidebar = st.sidebar
+#sidebar.markdown('![Analysis OF Data](https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif)' )
+#sidebar.markdown('<img style = "width:100px; " src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
+sidebar.image('images/3.gif',width=50)
 sidebar.header('Choose Your Option')
 options = ['View Dataset', 'Analyze By Genre','Analyze By Author','Analyze By Reviews','Analyse By Price','Analyse By Year','Analyse by Rating','View Report']
 choice = sidebar.selectbox(options= options, label= "Choose Action")
