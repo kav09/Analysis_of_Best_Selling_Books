@@ -1,37 +1,37 @@
 import plotly.graph_objects as go
 import plotly.express as px
 
-#def plot():
-    #fig = go.Figure()
-    #fig.add_trace( go.Line(x = [i for i in range(10)], y = [i*i for i in range(10)]))
-    #return fig
 
 #-------------------------------------------Plot Pie Chart--------------------
 
-def plotpie(labels,values,title):
-    layout = go.Layout(title = title) #color_continuous_scale='inferno'
+
+def plotpie(labels,values,title,template):
+    layout = go.Layout(title = title, template= template) #color_continuous_scale='inferno'
     fig = go.Figure(layout= layout)
-    for template in [ "ggplot2"]:
-        fig.update_layout(template=template)
+    #for template in [ "ggplot2"]:
+        #fig.update_layout(template=template)
     fig.add_trace(go.Pie(labels=labels,values=values))
     return fig
 
 #--------------------------------Plot Bar Chart------------------------
 
-def plotBar(x,y, title, xlabel, ylabel, width , height,template= "plotly_dark"):
+
+def plotBar(x,y, title, xlabel, ylabel, width , height,template):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
     
     layout = go.Layout(title= title,
                     xaxis=dict(title=xlabel),
                     yaxis=dict(title=ylabel),width = width, height= height,template= template)
     fig = go.Figure(layout = layout)
-    #for template in ["plotly_dark"]:
-       # fig.update_layout(template=template)
-    fig.add_trace( go.Bar(x = x,y= y, marker = dict(color = 'rgb(255,178,0)',
-                              line=dict(color='rgb(0,0,0)',width=1.5))))
+    #for template in ["ggplot2"]:
+       #fig.update_layout(template=template)
+    # fig.add_trace( go.Bar(x = x,y= y, marker = dict(color = 'rgb(255,178,0)',
+    #                           line=dict(color='rgb(0,0,0)',width=1.5))))
+    fig.add_trace( go.Bar(x = x,y= y))
     return fig
 
 #-------------------------------Plot GroupBAR Chart-----------------------
+
 
 def plotGroupedBar(datapoints , categories, title, xlabel, ylabel, colors = ['indianred', 'lightsalmon']):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
@@ -83,13 +83,13 @@ def plotHistogram(datapoints, title, xlabel, ylabel):
 #     booklist = [trace]
 #     return booklist
 
-def plotScatter(data,x , y,color,title,template= "plotly_white"): 
-    fig = px.scatter(data_frame= data, x= x, y=y,color= color,title=title)
+def plotScatter(data,x , y,color,title,template= "plotly_dark"): 
+    fig = px.scatter(data_frame= data, x= x, y=y,color= color,title=title,trendline= "ols")
 
-    fig.update_traces(marker=dict(size=12,
-                                line=dict(width=2,
-                                            color='DarkSlateGrey')),
-                    selector=dict(mode='markers'))
+    fig.update_traces(marker=dict(size=12),
+                                line=dict(width=2),
+                                        #    color='DarkSlateGrey')
+                    selector=dict(mode='marker'))
     fig.update_layout(width = 1000, height = 500,template = template)
 
     return fig

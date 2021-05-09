@@ -127,7 +127,7 @@ def analyseByGenre():
         col1,col2 = st.beta_columns(2)
         with col1:
             data = analysis.getFictionPerYear()
-            st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published',550,400))
+            st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.", "Years", 'No. of Books Published',550,400,"seaborn"))
 
         # Non fiction book per year
         with col2:
@@ -176,7 +176,7 @@ def analysebyAuthor():
 
     # No of Books published By Authors
     data = analysis.getBooksByAuth()
-    st.plotly_chart(plotBar(data.index, data.values, "Number of Book Published","Author","No of Books",1000,500))
+    st.plotly_chart(plotBar(data.index, data.values, "Number of Book Published","Author","No of Books",1000,500,"ggplot2"))
 
     st.markdown("___")
 
@@ -352,8 +352,8 @@ def analysebyYear():
     
     with col4:
         #if st.checkbox('Line Chart of Average Price Over Years'):
-        data = analysis.avgPriceOverYear()
         st.plotly_chart(plotLine(data.index,data.values,":Line Chart"))
+        data = analysis.avgPriceOverYear()
         
     st.markdown("___")
 
