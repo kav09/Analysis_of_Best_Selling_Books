@@ -91,3 +91,26 @@ https://bestanimations.com/media/guestbooks/1316324196sign-guestbook-animation-2
 #     with col2:
 #         st.markdown('<h1 style="color: purple;">Analysis of Best Selling Books</h1>',
 #                             unsafe_allow_html=True)
+
+
+    # if st.checkbox("View Description"):
+    #     #if st.checkbox('Numerical Desciption'):
+    #     st.subheader('Numerical Desciption')
+    #     data = analysis.viewDescription()
+    #     st.dataframe(data)
+    #     #if st.checkbox('Categorical Description'):
+        # st.subheader('Categorical Desciption')
+        # data = analysis.viewDescriptionCate()
+        # st.dataframe(data)
+
+    # if st.checkbox("View Top Rated"):
+    #      data = analysis.viewTop50()
+    #      st.dataframe(data)
+
+
+
+#import seaborn as sns
+    #sns.set_style('whitegrid')
+    #data = analysis.ficAndNonFic()
+    #st.plotly_chart(plotSubplot(data.index,data.values))
+

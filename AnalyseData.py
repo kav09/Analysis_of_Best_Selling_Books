@@ -14,8 +14,8 @@ class Analyse:
         
     def viewDescriptionCate(self):
         return self.booklist.describe(include = 'O') 
-    def viewTop50(self):
-        return self.booklist.head(50).sort_values('User Rating', ascending=False)
+    # def viewTop50(self):
+    #     return self.booklist.sort_values('User Rating', ascending=False).head(50)
 
         
     def changepricetoRupee(self):
@@ -83,9 +83,10 @@ class Analyse:
 
     def getBooksByAuth(self):
         self.auth = self.booklist.groupby('Author').count()['Price']
-        return self.auth.head(50).sort_values(ascending = False)
+        return self.auth.sort_values(ascending = False).head(50)
 
 #____________________________________Author wise Book rating
+
 
     def getAuthorList(self):
         return self.booklist['Author'].unique()
@@ -101,6 +102,7 @@ class Analyse:
         return self.booklist[self.booklist['Author']==author]['User Rating']
         #booklist.groupby('Author').mean()['User Rating'].sort_values(ascending= False)
 
+
 #______________________________________Review
     
     def getReview(self):
@@ -109,7 +111,6 @@ class Analyse:
 
    # Author 's review
     def getverReview(self, author):
-        
         return self.booklist[self.booklist['Author']== author]['Reviews']
 
 #_______________________________________Price
@@ -127,13 +128,20 @@ class Analyse:
     #     priceCount = self.booklist.groupby('Author').count()
     #     return priceCount[priceCount['Price'] > n].index
 
-    
+    def getverPrice(self, author):
+        return self.booklist[self.booklist['Author']==author]['Price']
 
     def freebooks(self):
         df=self.booklist[self.booklist['Price']==0]
         return df['Genre'].value_counts()
         
+    def freeBooksperYear(self):
+         df=self.booklist[self.booklist['Price']==0]
+         return df['Year'].value_counts()
 
+    def freeBookAvgRating(self):
+         df=self.booklist[self.booklist['Price']==0]
+         return df.groupby('Year').mean().reset_index()
 
 #__________________________________________ count Rating
 
@@ -145,6 +153,24 @@ class Analyse:
 
 #_______________________________________________Year
     # Year Ranked on bestSeller
+
+    def getYearList(self):
+        year = self.booklist['Year'].unique()
+        return year
+
+    def getYearReview(self, year):
+        return self.booklist[self.booklist['Year']== year]['Reviews'].sort_values(ascending = False).head(10)
+    def getYearRating(self,year):
+        return self.booklist[self.booklist['Year']== year]['User Rating'].sort_values(ascending = False).head(10)
+    def getYearPrice(self,year):
+        return self.booklist[self.booklist['Year']== year]['Price'].sort_values(ascending = False).head(10)
+    # def getYearAuthor(self,year):
+    #     return self.booklist[self.booklist['Year']== year].['Author'].sort_values(ascending = False).head(10)
+    def getYearAuthor(self,year):
+        y = self.booklist[self.booklist['Year']== year] 
+        return y.sort_values('Reviews',ascending=False)
+
+
     def NoBookBestyear(self):
         return self.booklist['Year']
 
@@ -158,16 +184,15 @@ class Analyse:
         return self.booklist.groupby('Year').mean()['User Rating']
 
 
-
     #AVG. PRICE-AVG. RATINGS RELATIONSHIP OF TOP 10 AUTHORS WITH HIGHEST AVG. PRICED BESTSELLERS
     def avgPrice_Ratingrelation(self):
-        return self.booklist.groupby('Author').mean().sort_values('Price',ascending=False).reset_index().head(50)
+        return self.booklist.groupby('Author').mean().sort_values('Price',ascending=False).reset_index().head(15)
     
     def avgPrice_Reviewrelation(self):
-        return self.booklist.groupby('Author').mean().sort_values('Reviews',ascending=False).reset_index().head(50)
+        return self.booklist.groupby('Author').mean().sort_values('Reviews',ascending=False).reset_index().head(15)
     
     def avgindex(self):
-        return self.booklist.groupby('Author').mean().sort_values('Year',ascending=False).reset_index().head(50)
+        return self.booklist.groupby('Author').mean().sort_values('Year',ascending=False).reset_index().head(15)
     
     def sctter(self):
         return self.booklist

@@ -10,7 +10,12 @@ def plotpie(labels,values,title,template):
     fig = go.Figure(layout= layout)
     #for template in [ "ggplot2"]:
         #fig.update_layout(template=template)
-    fig.add_trace(go.Pie(labels=labels,values=values))
+    fig.add_trace(go.Pie(labels=labels,values=values,title='Genre',textinfo='label+percent',hole=0.2,
+                       marker=dict(colors=['#f7d468','#74cb35'], 
+                                   line_color='Gray', 
+                                   line_width=1),
+                       textfont={'color': '#000', 'size': 12},
+                       textfont_size=12))
     return fig
 
 #--------------------------------Plot Bar Chart------------------------
@@ -23,10 +28,9 @@ def plotBar(x,y, title, xlabel, ylabel, width, height,template):
                     xaxis=dict(title=xlabel),
                     yaxis=dict(title=ylabel),width = width, height= height,template= template)
     fig = go.Figure(layout = layout)
-    #for template in ["ggplot2"]:
-       #fig.update_layout(template=template)
-    # fig.add_trace( go.Bar(x = x,y= y, marker = dict(color = 'rgb(255,178,0)',
-    #                           line=dict(color='rgb(0,0,0)',width=1.5))))
+    #fig.add_trace( go.Bar(x = x,y= y, marker = dict(color = ['#ff6666','#f76e6e', '#f07575', '#e87d7d', '#e08585',
+                                    # '#d98c8c', '#d19494', '#c99c9c','#c2a3a3', '#baabab'],
+                            # )))
     fig.add_trace( go.Bar(x = x,y= y))
     return fig
 
@@ -46,10 +50,12 @@ def plotGroupedBar(datapoints , categories, title, xlabel, ylabel, colors = ['in
         
     return fig
 #------------------------------------------
-def plotLine(x,y,title,template= "plotly_white"):
-    layout = go.Layout(title= title,template = template)
+def plotLine(x,y,title,xlabel, ylabel,template= "plotly_dark"):
+    layout = go.Layout(title= title, 
+                    xaxis=dict(title=xlabel),
+                    yaxis=dict(title=ylabel),template = template)
     fig = go.Figure(layout = layout)
-    fig.add_trace(go.Line(x=x,y=y))
+    fig.add_trace(go.Line(x=x,y=y,line_color='#f63366'))
     return fig
 
 #--------------------------------
@@ -96,5 +102,14 @@ def plotScatter(data,x , y,color,title,template= "plotly_dark"):
                                         color='DarkSlateGrey')),
                     selector=dict(mode='markers'))
     fig.update_layout(width = 1000, height = 500,template = template)
+
+    return fig
+
+def plotScatter1(data,x , y,title,template= "plotly_dark"): 
+    fig = px.scatter(data_frame= data, x= x, y=y,title=title)
+
+    fig.update_traces( marker=dict(color = 'rgb(249, 6, 6)',
+                             line=dict(color='rgb(0,0,0)',width=1.0)),mode='lines+markers')
+    fig.update_layout(template = template)
 
     return fig
