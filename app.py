@@ -93,7 +93,7 @@ def ViewForm():
         st.success('Report Saved')
 
 
-#--------------------------------------------------------------------
+#---------------------------------------------------------------Analyze By Genre
 
 def analyseByGenre():
 
@@ -212,26 +212,6 @@ def analysebyAuthor():
 
     #-----------------------------------------------------
 
-#--------------------------------------------------------
-    st.markdown("___")
-    #if st.checkbox('View By Top Review Author'):
-        #n = st.select_slider(options = [100,1500,2000], label ='Author having No. of Rating')
-    st.subheader("View By Top Review Author")
-    toprevauthor = st.selectbox(options = analysis.getTopReviewAuth(),label = "Select Author")
-
-    with st.beta_container():
-        col1 , col2 = st.beta_columns(2)
-
-        with col1:
-            # Particular Author and its Review
-            data = analysis.getverReview(toprevauthor)
-            st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""),unsafe_allow_html=True)
-
-        with col2:
-            # Particular Name of Author and its User RAting
-            data = analysis.getverRating(toprevauthor)
-            st.plotly_chart(plotLine(data.index, data.values,"User Rating","",""),unsafe_allow_html=True)
-
     st.markdown("___")
     
     data =  analysis.avgPrice_Ratingrelation()
@@ -254,40 +234,82 @@ def analysebyAuthor():
     
 def analysebyReview():
 
+    st.header("Analysis On The Basis Of Review")
 
-    data = analysis.getReview()
-    st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""),use_container_width=True)
-
-
-    # booklist = st.selectbox(options = analysis.getName(), label = "Select Book Name to analyse")
+    st.subheader("Histogram of Reviews")
+    data=analysis.getReviewDetail()
+    st.plotly_chart(plotHistogram(data,"No of books having same Reviews", 'Review', 'No Of Books'),use_container_width=True)
+    st.write("#### From Above Plot we Conclude that Most Of the BestSeller Books Reviews are of range 2000 - 5990. Very Less Books have review greater that 29.99K .")
     
-    # data = analysis.getverReview(booklist)
-    # st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""))
+    st.markdown("")
+    st.markdown("___")
 
-    # data = analysis.getverReview(booklist)
-    # st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""))
+    st.subheader("Top 10 Reviewed Books And Authors.")
+    col = st.beta_columns(2)
+    with col[0]:
+        data = analysis.viewAuthReview()
+        st.plotly_chart(plotLine(data.index, data.values,"Top Review Author","Author","Review"),use_container_width=True)
+        st.write("#### Top Reviewed Author is 'Delia Owens' with 87.841k.")
+    with col[1]:
+        data = analysis.viewBookReview()
+        st.plotly_chart(plotLine(data.index, data.values,"Top Review Book","Book Title","Review"),use_container_width=True)
+        st.write("#### Top Reviewed Book is 'Where the Crawdads Sing' with 87.841k.")
+    sidebar.markdown("<b>Conclusion: </b> <br><br> <p>'Where the Crawdads Sing' is the Top Reviewed Book of Author 'Delia Owens' with 87.841k reviews.</p>", unsafe_allow_html = True)
 
-    # data = analysis.getverRating(booklist)
-    # st.plotly_chart(plotLine(data.index, data.values,"User Rating","",""))
+    #--------------------------------------------------------
+    st.markdown("___")
+    #if st.checkbox('View By Top Review Author'):
+    st.header("Have a look of Reviews, Rating and Price of the Books of Selected Author According to its Review. .")
+    
+    st.markdown("")
+    st.markdown("")
 
+    n = st.select_slider(options = [0, 1000,10000,20000,30000,40000,50000,60000,70000,80000,90000], label ='Author having No. of Rating')
+    toprevauthor = st.selectbox(options = analysis.getTopReviewAuth(n),label = "Select Author")
+
+    with st.beta_container():
+        col = st.beta_columns(3)
+
+        with col[0]:
+            # Particular Author and its Review
+            data = analysis.getverReview(toprevauthor)
+            st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""),use_container_width=True)
+
+        with col[1]:
+            # Particular Name of Author and its User RAting
+            data = analysis.getverRating(toprevauthor)
+            st.plotly_chart(plotLine(data.index, data.values,"User Rating","",""),use_container_width=True)
+
+        with col[2]:
+            # Particular Name of Author and its User RAting
+            data = analysis.getverPrice(toprevauthor)
+            st.plotly_chart(plotLine(data.index, data.values,"Price","",""),use_container_width=True)
+    st.write("#### First Select the review range, then select the author having rating of that range. Now get a look of its Book's Reviews, Rating and the price. ")
+   
 
 #________________________________________________________
 
 
 def analyseByPrice():
-    
-    data = analysis.getprice()
-    st.plotly_chart(plotHistogram(data,"No of books having same price", 'Price', 'No Of Books'),use_container_width=True)
-    
+
+    st.header("Analysis On The Basis Of Price")
+
+#---------------------------------------------------Histogram of Price
+    with st.spinner("Loading.."):
+        st.subheader("Histogram of Price Category.")
+        data = analysis.getprice()
+        st.plotly_chart(plotHistogram(data,"No of books having same price", 'Price', 'No Of Books'),use_container_width=True)
+        st.write("#### From Above Plot we Conclude that Most Of the BestSeller Books Price are of range 500 - 990 rupee. Very Less Books are of much high cost that is above 2500 rupee.")
     st.markdown("___")
 
-    data = analysis.sctter()
+#-------------------------------------------Scatter Chart of comparision of price and user rating
+    data = analysis.sctterPrice_UserRating()
     st.plotly_chart(plotScatter(data,x='Price', y= 'User Rating',color = 'User Rating',title = ''),use_container_width=True)
 
     st.markdown("___")
 
-    # data = analysis.getprice()
-    # st.plotly_chart(plotBar(data.index,data.values,"Price of Books", '', '',600,800))
+    data = analysis.getprice()
+    st.plotly_chart(plotBar(data.index,data.values,"Price of Books", '', '',600,800,"plotly_white"))
 
     data = analysis.getprice()
     st.plotly_chart(plotLine(data.index,data.values,"Price of Books","Book Name","Price"),use_container_width=True)
@@ -338,7 +360,7 @@ def analyseByPrice():
     rpt = st.checkbox('Generate Report')
     if rpt:
         ViewForm()
-#----------------------------------------------------------------------
+#---------------------------------------------------------------ANalyze By Year
 
 def analysebyYear():
 
@@ -405,27 +427,32 @@ def analysebyYear():
     with st.spinner("Loading Data..."):
         selyear = st.selectbox(options = analysis.getYearList(), label = "Select Year to analyse")
         
-        data = analysis.getYearReview(selyear)
-        st.plotly_chart(plotBar(data.index, data.values,"Highest Reviewed Book of The Year","Books","Reviews",1000,700,"ggplot2"), use_container_width=True)
-        st.write("##### First Bar Specifes that this Book got the highest number of Reviews in the Selected Year")
-        st.markdown("___")
-
-        data = analysis.getYearRating(selyear)
-        st.plotly_chart(plotBar(data.index, data.values,"Highest Rated Book of The Year","Books","Rating",1000,700,"ggplot2"), use_container_width=True)
-        st.write("##### First Bar Specifes that this Book got the highest number of Rating in the Selected Year")
-        st.markdown("___")
-
-        data = analysis.getYearPrice(selyear)
-        st.plotly_chart(plotBar(data.index, data.values,"Highest Price Book of The Year","Books","Price",1000,700,"ggplot2"), use_container_width= True)
-        st.write("##### First Bar Specifes that this Book has the highest Price in the Selected Year")
-        st.markdown("___")
-
+        col = st.beta_columns(3)
+        with col[0]:
+            data = analysis.getYearReview(selyear)
+            st.plotly_chart(plotBar(data.index, data.values,"Highest Reviewed Book of The Year","Books","Reviews",1000,700,"ggplot2"), use_container_width=True)
+            st.write("##### First Bar Specifes that this Book got the highest number of Reviews in the Selected Year")
+            st.markdown("___")
+        with col[1]:
+            data = analysis.getYearRating(selyear)
+            st.plotly_chart(plotBar(data.index, data.values,"Highest Rated Book of The Year","Books","Rating",1000,700,"ggplot2"), use_container_width=True)
+            st.write("##### First Bar Specifes that this Book got the highest number of Rating in the Selected Year")
+            st.markdown("___")
+        with col[2]:
+            data = analysis.getYearPrice(selyear)
+            st.plotly_chart(plotBar(data.index, data.values,"Highest Price Book of The Year","Books","Price",1000,700,"ggplot2"), use_container_width= True)
+            st.write("##### First Bar Specifes that this Book has the highest Price in the Selected Year")
+            st.markdown("___")
+        
         data = analysis.getYearAuthor(selyear)
         st.plotly_chart(plotScatter(data, x = 'Price', y='User Rating', color= 'Author',title = 'Average Price & Average Rating Of Top Reviewed Authors Of The Year'),use_container_width=True)
         st.write("#####  The Above Scatter Chart is of The Average Price and Average Rating of the Top Rated Authors Of The Selected Year. From this we come to know the relation between the Author's Price and its Rating. For some author it also show the trend line , which depicts whether its other book has growth or not in terms of price or rating.")
         st.markdown("___")
+    sidebar.markdown("<b>Conclusion:</b> <br><br> In <b>2019</b> BestSeller Book In Terms of : <br> <b>Review :</b> Where The Cowdads Sing - 87.841k <br> <b>Rating :</b> Oh, the Places You'll Go! - 4.9 rate <br> <b>Highest Price :</b> Player's Handbook(Dungeons & Dragons) - 2025 rupee <br> <b>Lowest Price :</b> The Silent Patient - 1050 rupee.", unsafe_allow_html=True)
 
-#-----------------------------------------------------------------------
+
+#-----------------.---------------------------------------------Analyze By Rating
+
 def analysebyRating():
 
     st.header("Analysis on The Basis of Rating")
@@ -445,15 +472,15 @@ def analysebyRating():
 
 
 
-    st.header("View the No. of Reviews, Rating and Price of the Books of Selected Authors.")
+    st.header("Have a look of Reviews, Rating and Price of the Books of Selected Author According to its Rating. .")
     #if st.checkbox('View By Top Rated Authors'):
+
     st.markdown("")
-    n = st.select_slider(options = [0, 5, 10, 15], label ="Select the Range of Author's Rating")
+    st.markdown("")
+
+    n = st.select_slider(options = [0, 5, 10], label ="Select the Range of Author's Rating")
     with st.spinner('Loading...'):
         toprateauthor = st.selectbox(options = analysis.getTopRateAuth(n), label = "Select Author to analyse")
-    
-
-
     with st.beta_container():
         with st.spinner('Loading...'):
             col1 , col2 ,col3= st.beta_columns(3)
@@ -471,7 +498,13 @@ def analysebyRating():
                 st.plotly_chart(plotLine(data.index, data.values,"Price","Name of The Books","Price"), use_container_width=True)
     st.markdown("")
     st.write("#### First Select the rating range, then select the author having rating of that range. Now have a look of its Book's Reviews, Rating and the price. ")
-
+   
+    #-------------------------------Sidebar Conclusion
+   
+    data = analysis.AuthHighRate()
+    sidebar.markdown("")
+    sidebar.markdown("<b>Conclusion</b>: <br> Books have rating 4.9 are of following Authors - ",unsafe_allow_html=True)
+    sidebar.dataframe(data)
 #--------------------------------------------------------------------------
 
 def ViewReport():

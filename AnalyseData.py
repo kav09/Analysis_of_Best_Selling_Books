@@ -4,18 +4,23 @@ class Analyse:
     def __init__(self, path = "dataset/bestsellers with categories.csv"):
         self.booklist = pd.read_csv(path)
         self.changepricetoRupee()
+        self.renamevalue()
         self.cleanData()
+
+    def renamevalue(self):
+        self.booklist['Author'] = self.booklist['Author'].str.replace('J. K. Rowling', 'J.K. Rowling')
 
     def cleanData(self):
         self.booklist.set_index('Name', inplace=True)
 
-    def viewDescription(self):
-        return self.booklist.describe()
+
+    # def viewDescription(self):
+    #     return self.booklist.describe()
         
-    def viewDescriptionCate(self):
-        return self.booklist.describe(include = 'O') 
-    # def viewTop50(self):
-    #     return self.booklist.sort_values('User Rating', ascending=False).head(50)
+    # def viewDescriptionCate(self):
+    #     return self.booklist.describe(include = 'O') 
+    # # def viewTop50(self):
+    # #     return self.booklist.sort_values('User Rating', ascending=False).head(50)
 
         
     def changepricetoRupee(self):
@@ -95,8 +100,8 @@ class Analyse:
         ratingCount = self.booklist.groupby('Author').count()
         return ratingCount[ratingCount['User Rating'] > n].index
         
-    def getTopReviewAuth(self):
-        return self.booklist.groupby('Author').mean()['Reviews'].head(10).sort_values(ascending = False).index
+    # def getTopReviewAuth(self):
+    #     return self.booklist.groupby('Author').mean()['Reviews'].head(10).sort_values(ascending = False).index
 
     def getverRating(self, author):
         return self.booklist[self.booklist['Author']==author]['User Rating']
@@ -104,10 +109,25 @@ class Analyse:
 
 
 #______________________________________Review
+
+    def getReviewDetail(self):
+        return self.booklist['Reviews']  
     
-    def getReview(self):
-        #return self.booklist[self.booklist['Price'] == index ]['Author']
-        return self.booklist.groupby('Author').count()['Reviews'].head(50)
+    def viewAuthReview(self):
+        return self.booklist.groupby('Author').mean()['Reviews'].sort_values(ascending=False).head(10)
+        #return self.booklist['Author'].groupby('Reviews').sort_values(ascending=False).head(10)
+    
+    def viewBookReview(self):
+        return self.booklist['Reviews'].sort_values(ascending=False).head(10)
+
+    def viewYearReview(self):
+        return self.booklist.groupby('Year').mean()['Reviews'].sort_values(ascending=False).head(10)
+
+    def getTopReviewAuth(self,n):
+        # reviewCount = self.booklist.groupby('Author').count()
+        # return reviewCount[reviewCount['Reviews'] >n ].index
+        rev =self.booklist[self.booklist['Reviews'] > n ]
+        return rev['Author'].unique()
 
    # Author 's review
     def getverReview(self, author):
@@ -119,7 +139,7 @@ class Analyse:
         return self.booklist.index.unique()
 
     def getprice(self):
-        return self.booklist['Price'].head(100).sort_values(ascending = False)
+        return self.booklist['Price'].head(50).sort_values(ascending = False)
 
     # def getpriceview(self):
     #     return self.booklist.groupby('Price')
@@ -143,6 +163,10 @@ class Analyse:
          df=self.booklist[self.booklist['Price']==0]
          return df.groupby('Year').mean().reset_index()
 
+    def sctterPrice_UserRating(self):
+        return self.booklist
+    
+
 #__________________________________________ count Rating
 
 
@@ -151,6 +175,8 @@ class Analyse:
     def getCountRate2(self):
         return self.booklist['User Rating']
 
+    def AuthHighRate(self):
+        return self.booklist[self.booklist["User Rating"] == 4.9]["Author"].unique()
 #_______________________________________________Year
     # Year Ranked on bestSeller
 
@@ -160,6 +186,7 @@ class Analyse:
 
     def getYearReview(self, year):
         return self.booklist[self.booklist['Year']== year]['Reviews'].sort_values(ascending = False).head(10)
+
     def getYearRating(self,year):
         return self.booklist[self.booklist['Year']== year]['User Rating'].sort_values(ascending = False).head(10)
     def getYearPrice(self,year):
@@ -193,6 +220,7 @@ class Analyse:
     
     def avgindex(self):
         return self.booklist.groupby('Author').mean().sort_values('Year',ascending=False).reset_index().head(15)
+
     
-    def sctter(self):
-        return self.booklist
+
+    
