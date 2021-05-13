@@ -171,7 +171,9 @@ def analyseByGenre():
             st.write("##### Non-Fiction Books Having Much Higher Average Price Than The Fiction Books")
             st.markdown("___")
 
-#----------------------------------------------Author
+    sidebar.markdown("")
+    sidebar.markdown("<b>Conclusion:</b><li>Most of the BestSeller Book is Non-Fiction</li><li>Both Genre Books have almost same rating.</li><li>Fiction Books have most reviews so propably people want to talk about it.</li><li>Non-Fiction Books are most expensive.</li>",unsafe_allow_html=True)
+#---------------------------------------------- Analyze By Author
 
 def analysebyAuthor():
 
@@ -196,19 +198,23 @@ def analysebyAuthor():
         selAuthor = st.selectbox(options = analysis.getAuthorList(), label = "Select Author to analyse")
 
     with st.beta_container():
-        col1 , col2 = st.beta_columns(2)
-        with col1:
+        col= st.beta_columns(3)
+        with col[0]:
             with st.spinner("Loading Data..."):
                         # -------------- Particular Author and its Review
                 data = analysis.getverReview(selAuthor)
-                st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""), unsafe_allow_html=True)
-        with col2:
+                st.plotly_chart(plotLine(data.index, data.values,"Reviews","",""), use_container_width=True)
+        with col[1]:
             with st.spinner("Loading Data..."):
                     # ----------------------Particular Name of Author and its User RAting
                 data = analysis.getverRating(selAuthor)
-                st.plotly_chart(plotLine(data.index, data.values,"User Rating","",""), unsafe_allow_html=True)
-
-    st.markdown("___")
+                st.plotly_chart(plotLine(data.index, data.values,"User Rating","",""), use_container_width=True)
+        with col[2]:
+            with st.spinner("Loading Data..."):
+                    # ----------------------Particular Name of Author and its User RAting
+                data = analysis.getverPrice(selAuthor)
+                st.plotly_chart(plotLine(data.index, data.values,"Price","",""), use_container_width=True)
+    st.write("#### Above plots show the Review, User Rating, and Price of the Selected Author.")
 
     #-----------------------------------------------------
 
@@ -228,6 +234,9 @@ def analysebyAuthor():
     data =  analysis.avgindex()
     st.plotly_chart(plotScatter(data, x = 'Price', y='Reviews', color= 'Author',title = 'Average Price & Average Reviews Of Top 15 Authors With Year BestSellers'),use_container_width=True)
      
+
+    sidebar.markdown("")
+    sidebar.markdown("<b>Conclusion:</b> <p>Jeff Kinney has published the most no. of BestSeller Books that is 12. </p>",unsafe_allow_html=True) 
 #---------------------------------------------------
     
     
@@ -296,25 +305,34 @@ def analyseByPrice():
 
 #---------------------------------------------------Histogram of Price
     with st.spinner("Loading.."):
-        st.subheader("Histogram of Price Category.")
+        st.subheader("Histogram of Price.")
         data = analysis.getprice()
         st.plotly_chart(plotHistogram(data,"No of books having same price", 'Price', 'No Of Books'),use_container_width=True)
-        st.write("#### From Above Plot we Conclude that Most Of the BestSeller Books Price are of range 500 - 990 rupee. Very Less Books are of much high cost that is above 2500 rupee.")
+        st.write("#### From Above Plot we Conclude that Most Of the BestSeller Books Price are of range 600 - 990 rupee. Very Less Books are of much high cost that is above 2500 rupee.")
+    st.markdown("___")
+
+    st.subheader("Price Of the Top 5 Books")
+    col = st.beta_columns(2)
+    with col[0]:
+        with st.spinner("Loading.."):
+            data = analysis.getprice2()
+            #st.dataframe(data)
+            st.plotly_chart(plotBar(data.index,data.values,"Price of Books", 'Book Title', 'Price',900,450,"plotly_white"),use_container_width=True)
+    with col[1]:
+        with st.spinner("Loading.."):
+            data = analysis.getprice2()
+            st.plotly_chart(plotLine(data.index,data.values,"Price of Books","Book Title","Price","plotly_white"),use_container_width=True)
+    st.markdown("")
+    st.write("#### Above Plots Shows the Top 5 High Priced Books.")
     st.markdown("___")
 
 #-------------------------------------------Scatter Chart of comparision of price and user rating
-    data = analysis.sctterPrice_UserRating()
-    st.plotly_chart(plotScatter(data,x='Price', y= 'User Rating',color = 'User Rating',title = ''),use_container_width=True)
-
+    with st.spinner("Loading.."):
+        data = analysis.sctterPrice_UserRating()
+        st.plotly_chart(plotScatter(data,x='Price', y= 'User Rating',color = 'Price',title = 'Relation Between Price and User Rating'),use_container_width=True)
+        st.write("#### Here the trend line show that as the price increases the rating of the book get decreases.")
     st.markdown("___")
-
-    data = analysis.getprice()
-    st.plotly_chart(plotBar(data.index,data.values,"Price of Books", '', '',600,800,"plotly_white"))
-
-    data = analysis.getprice()
-    st.plotly_chart(plotLine(data.index,data.values,"Price of Books","Book Name","Price"),use_container_width=True)
-    
-    st.markdown("___")
+   
 
     #--------------------------------------FreeBooks
     st.subheader("Free BestSeller Books")
@@ -339,6 +357,14 @@ def analyseByPrice():
     st.markdown("")
     st.markdown("___")
 
+    st.subheader("Number of Free Books Published By Author.")
+    data = analysis.freeBookAuth()
+    st.plotly_chart(plotBar(data.index,data.values,'No. of Free Book Published By Author','Author','Count',700,450,'ggplot2'),use_container_width=True) 
+    st.write('#### Harper Lee has Published the Maximum Free BestSeller Books.')
+
+    st.markdown("")
+    st.markdown("___")
+
     st.subheader("Average Rating And Review of Free Book Over Year")
     cols = st.beta_columns(2)
     with cols[0]:
@@ -352,6 +378,14 @@ def analyseByPrice():
             data =  analysis.freeBookAvgRating()
             st.plotly_chart(plotScatter1(data, x = 'Year', y='Reviews',title = 'Average Review Of free Books Over Year'),use_container_width=True)
             st.write('#### **2017 have the maximum Average Review of Free Book**')
+
+    sidebar.markdown("")
+    sidebar.markdown("<b>Conclusion: </b><br><ul><li>Maximum No. of BestSeller Book is of 600 - 990 rupee.</li> <li>Most Expensive BestSeller Book is 'Diagnostic and Statistical Manual of Mental Disorders, 5th Edition: DSM-5'</li> <li>According to analysis, books having high price is less popular as its rating decreases.</li><li>Most of the free books are of Fiction</li><li>Maximum free book is published 2014.</li><li>Harper Lee has published maximum that is 4 Free books.</li>",unsafe_allow_html=True)
+    
+    # data = analysis.BookAuth()
+    # st.plotly_chart(plotBar(data.values,data.index,'No. of Free Book Published By Author','Author','Count',700,450,'ggplot2'),use_container_width=True) 
+    # #st.write('#### **In 2014, maximum number of free books published. But In 2012 and after 2017 No free books were there.**')
+    
 
     st.markdown("___")
 

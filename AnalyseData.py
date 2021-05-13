@@ -139,7 +139,9 @@ class Analyse:
         return self.booklist.index.unique()
 
     def getprice(self):
-        return self.booklist['Price'].head(50).sort_values(ascending = False)
+        return self.booklist['Price'].sort_values(ascending = False)
+    def getprice2(self):
+        return self.booklist['Price'].sort_values(ascending = False).head(6)
 
     # def getpriceview(self):
     #     return self.booklist.groupby('Price')
@@ -163,9 +165,20 @@ class Analyse:
          df=self.booklist[self.booklist['Price']==0]
          return df.groupby('Year').mean().reset_index()
 
+    def freeBookAuth(self):
+        df=self.booklist[self.booklist['Price']==0]
+        return df['Author'].value_counts()
+
     def sctterPrice_UserRating(self):
         return self.booklist
     
+    def freeBookAuth(self):
+        df=self.booklist[self.booklist['Price']==0]
+        return df['Author'].value_counts()
+
+    # def BookAuth(self):
+    #     return self.booklist[self.booklist['Price'] >= 3600]['Author'].reset_index()
+    #     #return df.groupby('Price')['Author']
 
 #__________________________________________ count Rating
 

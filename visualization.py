@@ -66,7 +66,7 @@ def plotHistogram(datapoints, title, xlabel, ylabel):
                     yaxis=dict(title=ylabel))
     fig = go.Figure(layout = layout)
 
-    fig.update_layout(template="plotly_dark")
+    fig.update_layout(template="ggplot2")
     fig.add_trace(go.Histogram(
         x = datapoints.values,
         # xbins = {'start': 1, 'size': 0.1, 'end' : 5}
