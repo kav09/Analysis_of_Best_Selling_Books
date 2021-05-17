@@ -221,18 +221,18 @@ def analysebyAuthor():
     st.markdown("___")
     
     data =  analysis.avgPrice_Ratingrelation()
-    st.plotly_chart(plotScatter(data,x='User Rating', y= 'Price',color= 'Author',title = 'Average Price & Average Rating Of Top 15 Authors With Average Price BestSellers'),use_container_width=True)
+    st.plotly_chart(plotScatter(data,x='User Rating', y= 'Price',color= 'Author',title = 'Average Price & Average Rating Of Authors With Average Price BestSellers'),use_container_width=True)
     st.write("##### ")
 
     st.markdown("___")
 
     data =  analysis.avgPrice_Reviewrelation()
-    st.plotly_chart(plotScatter(data,x='User Rating', y= 'Reviews',color= 'Author',title = 'Average Review & Average Rating Of Top 15 Authors With Average Review BestSellers'),use_container_width=True)
+    st.plotly_chart(plotScatter(data,x='User Rating', y= 'Reviews',color= 'Author',title = 'Average Review & Average Rating Of Authors With Average Review BestSellers'),use_container_width=True)
 
     st.markdown("___")
 
     data =  analysis.avgindex()
-    st.plotly_chart(plotScatter(data, x = 'Price', y='Reviews', color= 'Author',title = 'Average Price & Average Reviews Of Top 15 Authors With Year BestSellers'),use_container_width=True)
+    st.plotly_chart(plotScatter(data, x = 'Price', y='Reviews', color= 'Author',title = 'Average Price & Average Reviews Of Authors With Year BestSellers'),use_container_width=True)
      
 
     sidebar.markdown("")
@@ -365,19 +365,44 @@ def analyseByPrice():
     st.markdown("")
     st.markdown("___")
 
-    st.subheader("Average Rating And Review of Free Book Over Year")
+    st.subheader("Average Rating of Free And Paid Book Over Year")
     cols = st.beta_columns(2)
     with cols[0]:
         with st.spinner("Loading Data..."):
             data =  analysis.freeBookAvgRating()
             st.plotly_chart(plotScatter1(data, x = 'Year', y='User Rating',title = 'Average Rating Of free Books Over Year'),use_container_width=True)
-            st.write('#### **Average Rating of Free Book Over Year is not above than 4.8**')
+            st.write('##### **Average Rating of Free Book Over Year is not above than 4.8**')
     
     with cols[1]:
         with st.spinner("Loading Data..."):
+                data =  analysis.BookAvgRating()
+                st.plotly_chart(plotScatter1(data, x = 'Year', y='User Rating',title = 'Average Rating Of Paid Books Over Year'),use_container_width=True)
+                st.write('##### **After 2013 Average Rating of Book Increases Over the Years, but get reduce in 2017.**')
+
+    st.markdown("")
+    st.markdown("___")
+    st.subheader("Average Reviews of Free And Paid Book Over Year")
+
+    cols = st.beta_columns(2)    
+    with cols[0]:
+        with st.spinner("Loading Data..."):
             data =  analysis.freeBookAvgRating()
             st.plotly_chart(plotScatter1(data, x = 'Year', y='Reviews',title = 'Average Review Of free Books Over Year'),use_container_width=True)
-            st.write('#### **2017 have the maximum Average Review of Free Book**')
+            st.write('###### **2017 have the maximum Average Review of Free Book**')
+
+    with cols[1]:
+        with st.spinner("Loading Data..."):
+                data =  analysis.BookAvgRating()
+                st.plotly_chart(plotScatter1(data, x = 'Year', y='Reviews',title = 'Average Rating Of Paid Books Over Year'),use_container_width=True)
+                st.write('##### **Maximum Average Reviews of Book Over Year is seen in 2014.*')
+
+
+    # data1 =  analysis.freeBookAvgRating()
+    # data2 = analysis.BookAvgRating()
+    # st.plotly_chart(plotScatterDouble([data1,data2], x = 'Year', y='Reviews',title = 'Average Review Of free Books Over Year'),use_container_width=True)
+    # # # data2 = analysis.BookAvgRating()
+    # # # st.plotly_chart(plotScatterDouble(data2, x = 'Year', y='Reviews',title = 'Average Review Of free Books Over Year'),use_container_width=True)
+    # # #st.write('#### **2017 have the maximum Average Review of Free Book**')
 
     sidebar.markdown("")
     sidebar.markdown("<b>Conclusion: </b><br><ul><li>Maximum No. of BestSeller Book is of 600 - 990 rupee.</li> <li>Most Expensive BestSeller Book is 'Diagnostic and Statistical Manual of Mental Disorders, 5th Edition: DSM-5'</li> <li>According to analysis, books having high price is less popular as its rating decreases.</li><li>Most of the free books are of Fiction</li><li>Maximum free book is published 2014.</li><li>Harper Lee has published maximum that is 4 Free books.</li>",unsafe_allow_html=True)
@@ -403,10 +428,10 @@ def analysebyYear():
 
     # ---------------------------- No of BookS PUblished Per Year
 
-    st.subheader("Number Of The Books Published Per Year")
-    data =  analysis.NoBookBestyear()
-    st.plotly_chart(plotHistogram(data,"Number of Best Selling Books Published Per Year", 'Year', 'No. Of Books'),use_container_width=True)
-    st.write("##### Every Year Nearly 50 Books were Published.")
+    # st.subheader("Number Of The Books Published Per Year")
+    # data =  analysis.NoBookBestyear()
+    # st.plotly_chart(plotHistogram(data,"Number of Best Selling Books Published Per Year", 'Year', 'No. Of Books'),use_container_width=True)
+    # st.write("##### Every Year Nearly 50 Books were Published.")
     
     st.markdown("___")
 
@@ -564,22 +589,22 @@ sidebar.write('### Analysis Of Best Selling Books')
 sidebar.markdown('<img style = "width:70px; " src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
 #sidebar.image('images/3.gif',width=50)
 sidebar.subheader("Select Your Choice")
-options = ['View Dataset', 'Analyze By Genre','Analyze By Author','Analyze By Price','Analyse By Year','Analyse By Rating','Analyse by Reviews','View Report']
+options = ['View Dataset', 'Analyze By Genre','Analyze By Price','Analyse By Year','Analyse By Rating','Analyse by Reviews','Analyze By Author',]
 choice = sidebar.selectbox(options= options, label= "Choose Action")
 if choice == options[0]:
     viewDataset(['dataset/bestsellers with categories.csv'])
 elif choice == options[1]:
-    analyseByGenre()
+    analyseByGenre()    
 elif choice == options[2]:
-    analysebyAuthor()
-elif choice == options[3]:
     analyseByPrice()
-elif choice == options[4]:
+elif choice == options[3]:
     analysebyYear()  
-elif choice == options[5]:   
+elif choice == options[4]:   
     analysebyRating()
-elif choice == options[6]:  
+elif choice == options[5]:  
     analysebyReview()
-elif choice == options[7]:
-    ViewReport()
+elif choice == options[6]:
+    analysebyAuthor()
+# elif choice == options[7]:
+#     ViewReport()
     

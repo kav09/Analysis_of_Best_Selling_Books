@@ -113,3 +113,19 @@ def plotScatter1(data,x , y,title,template= "plotly_dark"):
     fig.update_layout(template = template)
 
     return fig
+
+# def plotScatterDouble(data, x , y,title,template= "plotly_dark"): 
+    
+#     # trace1 = (go.Scatter(data_frame= data, x= x, y=y,title=title))
+#     # trace2 = (go.Scatter(data_frame= data, x= x, y=y,title=title))
+#     fig = go.Figure()
+
+#     for point in zip(data):
+#         fig.add_trace( go.Scatter(x = point.index,y= point.values))
+#     # fig.add_trace(go.Scatter(data_frame= data2, x= x, y=y,title=title))
+
+#     # fig.update_traces( marker=dict(color = 'rgb(249, 6, 6)',
+#     #                          line=dict(color='rgb(0,0,0)',width=1.0)),mode='lines+markers')
+#     # fig.update_layout(template = template)
+
+#     return fig

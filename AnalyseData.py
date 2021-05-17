@@ -1,3 +1,4 @@
+from matplotlib.collections import BrokenBarHCollection
 import pandas as pd
 
 class Analyse:
@@ -95,6 +96,7 @@ class Analyse:
 
     def getAuthorList(self):
         return self.booklist['Author'].unique()
+        
 
     def getTopRateAuth(self, n):
         ratingCount = self.booklist.groupby('Author').count()
@@ -165,6 +167,10 @@ class Analyse:
          df=self.booklist[self.booklist['Price']==0]
          return df.groupby('Year').mean().reset_index()
 
+    def BookAvgRating(self):
+        df = self.booklist[self.booklist['Price']>0]
+        return df.groupby('Year').mean().reset_index()
+
     def freeBookAuth(self):
         df=self.booklist[self.booklist['Price']==0]
         return df['Author'].value_counts()
@@ -226,13 +232,13 @@ class Analyse:
 
     #AVG. PRICE-AVG. RATINGS RELATIONSHIP OF TOP 10 AUTHORS WITH HIGHEST AVG. PRICED BESTSELLERS
     def avgPrice_Ratingrelation(self):
-        return self.booklist.groupby('Author').mean().sort_values('Price',ascending=False).reset_index().head(15)
+        return self.booklist.groupby('Author').mean().sort_values('Price',ascending=False).reset_index()
     
     def avgPrice_Reviewrelation(self):
-        return self.booklist.groupby('Author').mean().sort_values('Reviews',ascending=False).reset_index().head(15)
+        return self.booklist.groupby('Author').mean().sort_values('Reviews',ascending=False).reset_index()
     
     def avgindex(self):
-        return self.booklist.groupby('Author').mean().sort_values('Year',ascending=False).reset_index().head(15)
+        return self.booklist.groupby('Author').mean().sort_values('Year',ascending=False).reset_index()
 
     
 
