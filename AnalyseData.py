@@ -14,7 +14,15 @@ class Analyse:
             'J. K. Rowling', 'J.K. Rowling')
 
     def cleanData(self):
+        names = []
+        for name in self.booklist['Name'].values:
+            if '(' in name:
+                names.append(name.strip('()').split('(')[0])
+            else:
+                names.append(name)
+        self.booklist['Name'] = names
         self.booklist.set_index('Name', inplace=True)
+        print(self.booklist.index)
 
     # def viewDescription(self):
     #     return self.booklist.describe()
@@ -67,6 +75,7 @@ class Analyse:
 
 # __________________________________Non Fiction book Per Year________________________________
 
+
     def getNonFictionPerYear(self):
         self.n_fic = self.booklist[self.booklist['Genre'] == 'Non Fiction']
         return self.n_fic.groupby('Year').count()['Genre']
@@ -87,6 +96,7 @@ class Analyse:
 
 # ______________________________________NO oF BOOK PUBLISHED BY AN AUTHOR_____________________________
 
+
     def getBooksByAuth(self):
         self.auth = self.booklist.groupby('Author').count()['Price']
         return self.auth.sort_values(ascending=False).head(50)
@@ -94,7 +104,7 @@ class Analyse:
 # ____________________________________Author wise Book rating
 
     def getAuthorList(self):
-        return self.booklist['Author'].unique()
+        return self.booklist.groupby('Author').count().sort_values('User Rating', ascending=False).index
 
     def getTopRateAuth(self, n):
         ratingCount = self.booklist.groupby('Author').count()
@@ -109,6 +119,7 @@ class Analyse:
 
 
 # ______________________________________Review
+
 
     def getReviewDetail(self):
         return self.booklist['Reviews']

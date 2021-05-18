@@ -426,9 +426,7 @@ def analyseByPrice():
     data1 = analysis.freeBookAvgRating()
     data2 = analysis.BookAvgRating()
     st.plotly_chart(plotMultiScatter1([{'x': data1.Year, 'y': data1['Reviews']}, {
-                        'x': data2.Year, 'y': data2['Reviews']}], title='Average Review Of Free And Paid Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
-
-
+        'x': data2.Year, 'y': data2['Reviews']}], title='Average Review Of Free And Paid Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
 
     # cols = st.beta_columns(2)
     # with cols[0]:
