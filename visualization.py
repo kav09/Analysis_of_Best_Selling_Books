@@ -131,7 +131,7 @@ def plotScatter1(data, x, y, title, template="plotly_dark"):
     return fig
 
 
-def plotMultiScatter1(datapoints, title, names, colors=['lightblue', 'yellow'], template="plotly_dark"):
+def plotMultiScatter1(datapoints, title, names, colors=['purple', '#b3d236'], template="plotly_dark"):
 
     fig = go.Figure()
 
@@ -139,8 +139,8 @@ def plotMultiScatter1(datapoints, title, names, colors=['lightblue', 'yellow'], 
         fig.add_trace(go.Scatter(x=point.get('x'),
                                  y=point.get('y'), name=name, line=dict(color=col)))
 
-    fig.update_traces(marker=dict(color='rgb(249, 6, 6)',
-                                  line=dict(color='rgb(0,0,0)', width=1.0)), mode='lines+markers')
+    #fig.update_traces(marker=dict(color='rgb(249, 6, 6)',
+                                  #line=dict(color='rgb(0,0,0)', width=1.0)), mode='lines+markers')
     fig.update_layout(template=template)
 
     return fig

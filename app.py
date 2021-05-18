@@ -414,30 +414,37 @@ def analyseByPrice():
         data1 = analysis.freeBookAvgRating()
         data2 = analysis.BookAvgRating()
         st.plotly_chart(plotMultiScatter1([{'x': data1.Year, 'y': data1['User Rating']}, {
-                        'x': data2.Year, 'y': data2['User Rating']}], title='Average Rating Of free Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
+                        'x': data2.Year, 'y': data2['User Rating']}], title='Average Rating Of Free And Paid Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
 
         st.write(
             '##### **Average Rating of Free Book Over Year is not above than 4.8**')
 
     st.markdown("")
     st.markdown("___")
+
     st.subheader("Average Reviews of Free And Paid Book Over Year")
+    data1 = analysis.freeBookAvgRating()
+    data2 = analysis.BookAvgRating()
+    st.plotly_chart(plotMultiScatter1([{'x': data1.Year, 'y': data1['Reviews']}, {
+                        'x': data2.Year, 'y': data2['Reviews']}], title='Average Review Of Free And Paid Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
 
-    cols = st.beta_columns(2)
-    with cols[0]:
-        with st.spinner("Loading Data..."):
-            data = analysis.freeBookAvgRating()
-            st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
-                                         title='Average Review Of free Books Over Year'), use_container_width=True)
-            st.write('###### **2017 have the maximum Average Review of Free Book**')
 
-    with cols[1]:
-        with st.spinner("Loading Data..."):
-            data = analysis.BookAvgRating()
-            st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
-                                         title='Average Rating Of Paid Books Over Year'), use_container_width=True)
-            st.write(
-                '##### **Maximum Average Reviews of Book Over Year is seen in 2014.*')
+
+    # cols = st.beta_columns(2)
+    # with cols[0]:
+    #     with st.spinner("Loading Data..."):
+    #         data = analysis.freeBookAvgRating()
+    #         st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
+    #                                      title='Average Review Of free Books Over Year'), use_container_width=True)
+    #         st.write('###### **2017 have the maximum Average Review of Free Book**')
+
+    # with cols[1]:
+    #     with st.spinner("Loading Data..."):
+    #         data = analysis.BookAvgRating()
+    #         st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
+    #                                      title='Average Rating Of Paid Books Over Year'), use_container_width=True)
+    #         st.write(
+    #             '##### **Maximum Average Reviews of Book Over Year is seen in 2014.*')
 
     # data1 =  analysis.freeBookAvgRating()
     # data2 = analysis.BookAvgRating()
