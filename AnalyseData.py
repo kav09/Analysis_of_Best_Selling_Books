@@ -22,7 +22,6 @@ class Analyse:
                 names.append(name)
         self.booklist['Name'] = names
         self.booklist.set_index('Name', inplace=True)
-        print(self.booklist.index)
 
     # def viewDescription(self):
     #     return self.booklist.describe()
@@ -139,7 +138,6 @@ class Analyse:
         # return reviewCount[reviewCount['Reviews'] >n ].index
         rev = self.booklist[self.booklist['Reviews']
                             > n].groupby('Author').count().sort_values('Reviews', ascending=False)
-        print(rev)
         return rev.index
 
    # Author 's review
