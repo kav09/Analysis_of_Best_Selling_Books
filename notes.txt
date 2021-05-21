@@ -114,3 +114,6 @@ https://bestanimations.com/media/guestbooks/1316324196sign-guestbook-animation-2
     #data = analysis.ficAndNonFic()
     #st.plotly_chart(plotSubplot(data.index,data.values))
 
+# sidebar.header('Analysis Of Best Selling Books')
+# #sidebar.markdown('![Analysis OF Data](https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif)' )
+# sidebar.markdown('<img style = "width:70px; margin-left : 35%; margin-top:-30%;" src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)

@@ -10,20 +10,49 @@ from AnalyseData import Analyse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+
+st.set_page_config(page_title="Analysis of Best Selling Books", 
+                   page_icon=":books:", 
+                   layout='wide')
+
 engine = create_engine('sqlite:///db.sqlite3')
 Session = sessionmaker(bind=engine)
 sess = Session()
 
-st.set_page_config(layout="wide")
 
 analysis = Analyse()
 
 df = pd.read_csv('dataset/bestsellers with categories.csv')
 
-# ______________________________________________________________HEADER
+# ______________________________________________________________HEADER------------------------------------------
 
 with st.spinner("Loading Data..."):
-    st.markdown('<h1  style = " font-family: Book Antiqua ;letter-spacing:.1px;word-spacing:1px; color :#e67363; "> Analysis of Best Selling Books  </h1> <img src="" />', unsafe_allow_html=True)
+    st.markdown("""
+        <style>
+            .mainhead{
+                font-family: Book Antiqua ;
+                letter-spacing:.1px;
+                word-spacing:1px;
+                color :#e67363; 
+            }
+        </style>
+    """,unsafe_allow_html=True)
+
+    
+    st.markdown("""
+        <style>
+            .detail{
+                font-size:18px;
+                letter-spacing:.1px;
+                word-spacing:1px;
+                font-family:Calibri;
+                color:#74cb35;
+                display:inline-block;
+                }
+        </style>
+    """,unsafe_allow_html=True)    
+
+    st.markdown('<h1 class="mainhead"> Analysis of Best Selling Books </h1> <img src="" />', unsafe_allow_html=True)
     col1, col2 = st.beta_columns([5, 10])
 
     with col1:
@@ -34,13 +63,38 @@ with st.spinner("Loading Data..."):
         col = st.beta_container()
 
         with col:
-            st.markdown('<p style="margin-top: 10%;letter-spacing:.1px;word-spacing:1px;color:indianred;margin-left:5%;">Hey There! <br> Welcome To My Project. This Project is all about Analyzing the Top BestSelling Books of Year 2009 to 2019. <br>We will be analyzing the Best Books on the basis of Reviews, Price, Rating, and the Author who had written it.<br>Our motive is to give you best idea about the trend going on. What people are liking and What they want to read in future. <br>One last tip, if you are on a mobile device, switch over to landscape for viewing ease. Give it a go! </p>', unsafe_allow_html=True)
+            st.markdown("""
+                <style>
+                    .content{
+                    margin-top: 10%;
+                    letter-spacing:.1px;
+                    word-spacing:1px;
+                    color:indianred;
+                    margin-left:5%;}
+                </style>
+            """,unsafe_allow_html=True)
 
-st.markdown("---")
+            st.markdown('<p class="content">Hey  There! <br> Welcome To My Project.This Project is all about Analyzing the Top BestSelling Books of Year 2009 to 2019.<br>We will be analyzing the Best Books on the basis of Reviews, Price, Rating, and the Author who had written it.<br>Our motive is to give you best idea about the trend going on. What people are liking and What they want to read in future. <br>One last tip, if you are on a mobile device, switch over to landscape for viewing ease. Give it a go! </p>', unsafe_allow_html=True)
+            st.markdown('<p class="content" style = "float:right;"> Made By Kavya Srivastava</p>', unsafe_allow_html=True)
+
+st.markdown("")
 st.markdown("")
 
-# ________________________________________________
+# ________________________________________________Data Details------------------------------------------------------
 
+
+st.markdown(""" 
+        <style>
+            .head{
+                font-family: Book Antiqua; 
+                font-size:24px;
+                #padding-top:5%;
+                padding-bottom:5%;
+                font-weight:light;
+                color:#ffc68a;
+            }
+        </style>
+        """,unsafe_allow_html=True)
 
 def viewDataset(pathlist):
 
@@ -52,30 +106,46 @@ def viewDataset(pathlist):
     #         st.dataframe(df)
 
     with st.spinner("Loading Data..."):
-        st.subheader("DataSet Used In This Project")
+        st.markdown('<p class="head"> DataSet Used In This Project</p>',unsafe_allow_html=True)
+
+        st.markdown("")
         st.dataframe(df)
 
+        st.markdown(""" 
+        <style>
+            .block{
+                font-family: Book Antiqua; 
+                font-size:24px;
+                 padding-top:11%;
+                font-weight:light;
+                color:lightblue;
+            }
+        </style>
+        """,unsafe_allow_html=True)
+
+
         st.markdown('---')
-        cols = st.beta_columns(4)
-        cols[0].markdown("### No. of Rows :")
+        cols = st.beta_columns(4) 
+        cols[0].markdown('<p class="block"> Number of Rows : <br> </p>',unsafe_allow_html = True)
         cols[1].markdown(f"# {df.shape[0]}")
-        cols[2].markdown("### No. of Columns :")
+        cols[2].markdown('<p class= "block"> Number of Columns : <br></p>',unsafe_allow_html = True)
         cols[3].markdown(f"# {df.shape[1]}")
         st.markdown('---')
 
-        st.header('Summary')
+        st.markdown('<p class= "head"> Summary </p>',unsafe_allow_html=True)
+        st.markdown("")
         st.dataframe(df.describe())
         st.markdown('---')
 
         types = {'object': 'Categorical',
                  'int64': 'Numerical', 'float64': 'Numerical'}
         types = list(map(lambda t: types[str(t)], df.dtypes))
-        st.header('Dataset Columns')
+        st.markdown('<p class="head">Dataset Columns</p>',unsafe_allow_html=True)
         for col, t in zip(df.columns, types):
-            st.markdown(f"### {col}")
+            st.markdown(f"## {col}")
             cols = st.beta_columns(4)
             cols[0].markdown('#### Unique Values :')
-            cols[1].markdown(f"# {df[col].unique().size}")
+            cols[1].markdown(f"## {df[col].unique().size}")
             cols[2].markdown('#### Type :')
             cols[3].markdown(f"## {t}")
             st.markdown("___")
@@ -98,10 +168,11 @@ def ViewForm():
 
 def analyseByGenre():
 
-    # -----------------------------------Fiction Vs Non Fiction
+    # ______________________________________Fiction Vs Non Fiction______________________________
+
     with st.spinner("Loading Data..."):
         #st.markdown('<h3  style = "float:right; font-family: Book Antiqua; margin:20%;"> Fiction Vs Non Fiction Books</h1> <img style ="float:left; width:35px " src="https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"" />' , unsafe_allow_html=True)
-        st.subheader('Fiction Vs Non-Fiction Books',)
+        st.markdown('<p class="head"> Fiction Vs Non-Fiction Books</p>',unsafe_allow_html=True)
         col1, col2 = st.beta_columns(2)
         with col1:
             data = analysis.getFicVsNonFic()
@@ -111,14 +182,15 @@ def analyseByGenre():
             data = analysis.getFicVsNonFic()
             st.plotly_chart(plotBar(data.index, data.values, "Bar Chart of Fiction Vs Non Fiction",
                                     "Genre", "No Of Books", 400, 450, "ggplot2"), use_container_width=True)
-        st.write(" ##### Non-Fiction BestSellers Are More Than Fiction")
+    
+        st.markdown('<p class="detail">Non-Fiction BestSellers Are More Than Fiction</p>',unsafe_allow_html=True)
 
 
-# ---------------------------------------View Number of Fiction and Non FIction Books Published Per Year
+    # __________________________________View Number of Fiction and Non FIction Books Published Per Year
     st.markdown("___")
     with st.spinner("Loading Data..."):
-        st.subheader(
-            'Number of Fiction and Non Fiction Books Published Per Year')
+        st.markdown(
+            '<p class = "head">Number of Fiction and Non Fiction Books Published Per Year</p>',unsafe_allow_html=True)
 
         # fiction books per year
         col1, col2 = st.beta_columns(2)
@@ -126,15 +198,15 @@ def analyseByGenre():
             data = analysis.getFictionPerYear()
             st.plotly_chart(plotBar(data.index, data.values, "Number of Fiction Book published per Year.",
                                     "Years", 'No. of Books Published', 500, 400, "seaborn"), use_container_width=True)
-            st.write(
-                " ##### In 2014, Maximum Number of Fiction Books were Published.")
+            st.markdown(
+                ' <p class="detail">In 2014, Maximum Number of Fiction Books were Published.</p>',unsafe_allow_html=True)
         # Non fiction book per year
         with col2:
             data = analysis.getNonFictionPerYear()
             st.plotly_chart(plotBar(data.index, data.values, "Number of Non Fiction Book published per Year.",
                                     "Years", "No.of Book Published", 500, 400, "ggplot2"), use_container_width=True)
-            st.write(
-                " ##### In 2015, Maximum Number of Non-Fiction Books were Published.")
+            st.markdown(
+                ' <p class="detail">In 2015, Maximum Number of Non-Fiction Books were Published.</p>',unsafe_allow_html=True)
 # -----------------------------------------------------------------------------
 
     st.markdown("___")
@@ -426,23 +498,25 @@ def analyseByPrice():
     data1 = analysis.freeBookAvgRating()
     data2 = analysis.BookAvgRating()
     st.plotly_chart(plotMultiScatter1([{'x': data1.Year, 'y': data1['Reviews']}, {
-        'x': data2.Year, 'y': data2['Reviews']}], title='Average Review Of Free And Paid Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
+                        'x': data2.Year, 'y': data2['Reviews']}], title='Average Review Of Free And Paid Books Over Year', names=['Free Books', 'Paid Books']), use_container_width=True)
 
-    # cols = st.beta_columns(2)
-    # with cols[0]:
-    #     with st.spinner("Loading Data..."):
-    #         data = analysis.freeBookAvgRating()
-    #         st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
-    #                                      title='Average Review Of free Books Over Year'), use_container_width=True)
-    #         st.write('###### **2017 have the maximum Average Review of Free Book**')
 
-    # with cols[1]:
-    #     with st.spinner("Loading Data..."):
-    #         data = analysis.BookAvgRating()
-    #         st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
-    #                                      title='Average Rating Of Paid Books Over Year'), use_container_width=True)
-    #         st.write(
-    #             '##### **Maximum Average Reviews of Book Over Year is seen in 2014.*')
+
+    cols = st.beta_columns(2)
+    with cols[0]:
+        with st.spinner("Loading Data..."):
+            data = analysis.freeBookAvgRating()
+            st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
+                                         title='Average Review Of free Books Over Year'), use_container_width=True)
+            st.write('###### **2017 have the maximum Average Review of Free Book**')
+
+    with cols[1]:
+        with st.spinner("Loading Data..."):
+            data = analysis.BookAvgRating()
+            st.plotly_chart(plotScatter1(data, x='Year', y='Reviews',
+                                         title='Average Rating Of Paid Books Over Year'), use_container_width=True)
+            st.write(
+                '##### **Maximum Average Reviews of Book Over Year is seen in 2014.*')
 
     # data1 =  analysis.freeBookAvgRating()
     # data2 = analysis.BookAvgRating()
@@ -629,7 +703,9 @@ def analysebyRating():
     sidebar.markdown(
         "<b>Conclusion</b>: <br> Books have rating 4.9 are of following Authors - ", unsafe_allow_html=True)
     sidebar.dataframe(data)
-# --------------------------------------------------------------------------
+
+
+# ---------------------------------------------------VIew REPORT--------------------------------------------
 
 
 def ViewReport():
@@ -648,12 +724,32 @@ def ViewReport():
     st.markdown(markdown)
 
 
+#--------------------------------------------------SIDEBAR----------------------------------
+
 sidebar = st.sidebar
-sidebar.write('### Analysis Of Best Selling Books')
-#sidebar.markdown('![Analysis OF Data](https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif)' )
-sidebar.markdown('<img style = "width:70px; " src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
-# sidebar.image('images/3.gif',width=50)
-sidebar.subheader("Select Your Choice")
+from datetime import datetime
+today = datetime.today()
+# Textual month, day and year	
+d = today.strftime("%B %d, %Y %H: %M: %S")
+sidebar.write(d)
+sidebar.markdown("")
+sidebar.markdown("""
+<style> 
+    .sidehead{
+        float:left;
+        font-family: Book Antiqua ;
+        letter-spacing:.1px;word-spacing:1px; 
+        color :Cyan; 
+        margin-top:-10% !important;
+    }
+    .sideimg{
+        width:60px;
+        float:left
+    }
+</style>
+""",unsafe_allow_html=True)
+sidebar.markdown('<h1 class = "sidehead"> Analysis of Best Selling Books  </h1> <img class = "sideimg" src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
+sidebar.markdown("### Select Your Choice :point_down:")
 options = ['View Dataset', 'Analyze By Genre', 'Analyze By Price', 'Analyse By Year',
            'Analyse By Rating', 'Analyse by Reviews', 'Analyze By Author', ]
 choice = sidebar.selectbox(options=options, label="Choose Action")
@@ -673,3 +769,5 @@ elif choice == options[6]:
     analysebyAuthor()
 # elif choice == options[7]:
 #     ViewReport()
+
+
