@@ -22,15 +22,15 @@ def plotpie(labels, values, title, template):
 # --------------------------------Plot Bar Chart------------------------
 
 
-def plotBar(x, y, title, xlabel, ylabel, width, height, template= "plotly-dark"):
+def plotBar(x, y, title, xlabel, ylabel, width = 600,height = 500, template= "plotly-dark"):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
 
     layout = go.Layout(title=title,
                        xaxis=dict(title=xlabel),
-                       yaxis=dict(title=ylabel), width=width, height=height, template=template)
+                       yaxis=dict(title=ylabel), width = width, height=height,  template=template)
     fig = go.Figure(layout=layout)
     # fig.add_trace( go.Bar(x = x,y= y, marker = dict(color = ['#ff6666','#f76e6e', '#f07575', '#e87d7d', '#e08585',
-    # '#d98c8c', '#d19494', '#c99c9c','#c2a3a3', '#baabab'],
+    # '#d98c8c', '#d19494', '#c99c9c','#c2a3a3', '#baabab'], colors=['indianred', 'lightsalmon']
     # )))
     fig.add_trace(go.Bar(x=x, y=y))
     return fig
@@ -38,7 +38,7 @@ def plotBar(x, y, title, xlabel, ylabel, width, height, template= "plotly-dark")
 # -------------------------------Plot GroupBAR Chart-----------------------
 
 
-def plotGroupedBar(datapoints, categories, title, xlabel, ylabel, colors=['indianred', 'lightsalmon']):
+def plotGroupedBar(datapoints, categories, title, xlabel, ylabel,colors=['indianred', 'lightsalmon']):
     #layout=go.Layout(title=go.layout.Title(text="Number of Fiction Book published per Year."), hovermode='closest',xaxis=dict(title='Number Of Books', type='log', autorange=True),yaxis=dict(title='Years', type='log', autorange=True))
 
     layout = go.Layout(title=title,
@@ -51,6 +51,7 @@ def plotGroupedBar(datapoints, categories, title, xlabel, ylabel, colors=['india
                              name=category, marker_color=color))
 
     return fig
+
 # ------------------------------------------
 
 
