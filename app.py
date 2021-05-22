@@ -635,8 +635,6 @@ def analyseByPrice():
     if rpt:
         ViewForm()
 # ---------------------------------------------------------------ANalyze By Year
-
-
 def analysebyYear():
 
     st.write("## Analysis on the basis of Year")
@@ -843,35 +841,35 @@ def ViewReport():
     st.image(reportToView.img_name)
 
 
-sidebar = st.sidebar
-from datetime import datetime
-today = datetime.today()
-# Textual month, day and year	
-d = today.strftime("%B %d, %Y %H: %M: %S")
-sidebar.write(d)
-#sidebar.markdown("")
+# sidebar = st.sidebar
+# from datetime import datetime
+# today = datetime.today()
+# # Textual month, day and year	
+# d = today.strftime("%B %d, %Y %H: %M: %S")
+# sidebar.write(d)
+# #sidebar.markdown("")
 
-sidebar.markdown("""
-    <style> 
-        .sidehead{
-            float:left;
-            font-family: Book Antiqua ;
-            letter-spacing:.1px;word-spacing:1px; 
-            color :Cyan; 
-            margin-top:-10% !important;
-        }
-        .sideimg{
-            width:60px;
-            float:left;
-        }
-    </style>
-""",unsafe_allow_html=True)
+# sidebar.markdown("""
+#     <style> 
+#         .sidehead{
+#             float:left;
+#             font-family: Book Antiqua ;
+#             letter-spacing:.1px;word-spacing:1px; 
+#             color :Cyan; 
+#             margin-top:-10% !important;
+#         }
+#         .sideimg{
+#             width:60px;
+#             float:left;
+#         }
+#     </style>
+# """,unsafe_allow_html=True)
 
-sidebar.markdown('<h1 class = "sidehead"> Analysis of Best Selling Books  </h1> <img class = "sideimg" src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
-sidebar.markdown("### Select Your Choice :point_down:")
-options = ['View Dataset', 'Analyze By Genre', 'Analyze By Price', 'Analyse By Year',
-           'Analyse By Rating', 'Analyse by Reviews', 'Analyze By Author', ]
-choice = sidebar.selectbox(options=options, label="")
+# sidebar.markdown('<h1 class = "sidehead"> Analysis of Best Selling Books  </h1> <img class = "sideimg" src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
+# sidebar.markdown("### Select Your Choice :point_down:")
+# options = ['View Dataset', 'Analyze By Genre', 'Analyze By Price', 'Analyse By Year',
+#            'Analyse By Rating', 'Analyse by Reviews', 'Analyze By Author', ]
+# choice = sidebar.selectbox(options=options, label="")
 if choice == options[0]:
     viewDataset(['dataset/bestsellers with categories.csv'])
 elif choice == options[1]:
