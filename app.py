@@ -71,6 +71,23 @@ def generateReport():
     current_report['img_name'] = sidebar.text_input('Image Name')
     current_report['save_report'] = sidebar.button("Save Report")
 
+
+def save_report_form(fig):
+    generateReport()
+    if current_report['save_report']:
+        with st.spinner("Saving Report..."):
+            try:
+                path = 'reports/'+current_report['img_name']+'.png'
+                fig.write_image(path)
+                report = Report(
+                    title=current_report['title'], desc=current_report['desc'], img_name=path)
+                sess.add(report)
+                sess.commit()
+                st.success('Report Saved')
+            except Exception as e:
+                st.error('Something went Wrong')
+                print(e)
+
 # ______________________________________________________________HEADER------------------------------------------
 
 
@@ -221,28 +238,18 @@ def analyseByGenre():
             fig = plotpie(data.index, data.values,
                           'Pie Chart of Fiction Vs Non-Fiction', "seaborn")
             st.plotly_chart(fig, use_container_width=True)
-            save_this_report = st.checkbox("Save Report")
+            save_this_report = st.checkbox("Save Report", key='1')
 
             if save_this_report:
-                generateReport()
-                if current_report['save_report']:
-                    with st.spinner("Saving Report..."):
-                        try:
-                            path = 'reports/'+current_report['img_name']+'.png'
-                            fig.write_image(path)
-                            report = Report(
-                                title=current_report['title'], desc=current_report['desc'], img_name=path)
-                            sess.add(report)
-                            sess.commit()
-                            st.success('Report Saved')
-                        except Exception as e:
-                            st.error('Something went Wrong')
-                            print(e)
-
+                save_report_form(fig)
         with col2:
             data = analysis.getFicVsNonFic()
-            st.plotly_chart(plotBar(data.index, data.values, "Bar Chart of Fiction Vs Non Fiction",
-                                    "Genre", "No Of Books", 400, 450, "ggplot2"), use_container_width=True)
+            fig = plotBar(data.index, data.values, "Bar Chart of Fiction Vs Non Fiction",
+                          "Genre", "No Of Books", 400, 450, "ggplot2")
+            st.plotly_chart(fig, use_container_width=True)
+            save_this_report = st.checkbox("Save Report", key='2')
+            if save_this_report:
+                save_report_form(fig)
 
         st.markdown(
             '<p class="detail">Non-Fiction BestSellers Are More Than Fiction</p>', unsafe_allow_html=True)
@@ -638,6 +645,8 @@ def analyseByPrice():
     if rpt:
         ViewForm()
 # ---------------------------------------------------------------ANalyze By Year
+
+
 def analysebyYear():
 
     st.write("## Analysis on the basis of Year")
@@ -847,18 +856,18 @@ def ViewReport():
 # sidebar = st.sidebar
 # from datetime import datetime
 # today = datetime.today()
-# # Textual month, day and year	
+# # Textual month, day and year
 # d = today.strftime("%B %d, %Y %H: %M: %S")
 # sidebar.write(d)
 # #sidebar.markdown("")
 
 # sidebar.markdown("""
-#     <style> 
+#     <style>
 #         .sidehead{
 #             float:left;
 #             font-family: Book Antiqua ;
-#             letter-spacing:.1px;word-spacing:1px; 
-#             color :Cyan; 
+#             letter-spacing:.1px;word-spacing:1px;
+#             color :Cyan;
 #             margin-top:-10% !important;
 #         }
 #         .sideimg{
