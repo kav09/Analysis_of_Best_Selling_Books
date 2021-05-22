@@ -49,13 +49,16 @@ sidebar.markdown("""
         width:60px;
         float:left
     }
+    h1{
+        font-weight:light;
+    }
 </style>
 """, unsafe_allow_html=True)
 sidebar.markdown('<h1 class = "sidehead"> Analysis of Best Selling Books  </h1> <img class = "sideimg" src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
 sidebar.markdown("### Select Your Choice :point_down:")
 options = ['View Dataset', 'Analyze By Genre', 'Analyze By Price', 'Analyse By Year',
            'Analyse By Rating', 'Analyse by Reviews', 'Analyze By Author', 'View Saved Report']
-choice = sidebar.selectbox(options=options, label=" ")
+choice = sidebar.selectbox(options=options, label="")
 
 current_report = dict().fromkeys(
     ['title', 'desc', 'img_name', 'save_report'], "")
@@ -133,7 +136,7 @@ st.markdown("""
         <style>
             .head{
                 font-family: Calibri, Book Antiqua; 
-                font-size:4.5vh;
+                font-size:4vh;
                 padding-top:2%;
                 padding-bottom:2%;
                 font-weight:light;
