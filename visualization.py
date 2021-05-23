@@ -7,7 +7,7 @@ import plotly.express as px
 
 def plotpie(labels, values, title, template):
     # color_continuous_scale='inferno'
-    layout = go.Layout(title=title, template=template)
+    layout = go.Layout(title=title, template=template, width=400, height=450)
     fig = go.Figure(layout=layout)
     # for template in [ "ggplot2"]:
     # fig.update_layout(template=template)
@@ -93,22 +93,6 @@ def plotHistogram(datapoints, title, xlabel, ylabel):
     return fig
 
 
-# def plotSubplot(rows, cols, plots):
-
-#     fig = make_subplots(rows=rows, cols=cols)
-#     for row in range(rows):
-#         for col in range(cols):
-#             print(row*col+col+1)
-#             fig.add_trace(plots[row*col+col+1], row=row+1, col=col+1)
-#     return fig
-
-# def plotScatter(x,y):
-#     #fig = go.Figure()
-#     trace=go.Scatter(x=x,y=y)
-#     booklist = [trace]
-#     return booklist
-
-
 def plotScatter(data, x, y, color, title, template="plotly_dark"):
     fig = px.scatter(data_frame=data, x=x, y=y, color=color,
                      title=title, trendline="ols")
@@ -132,9 +116,13 @@ def plotScatter1(data, x, y, title, template="plotly_dark"):
     return fig
 
 
-def plotMultiScatter1(datapoints, title, names, colors=['#f7d468','purple', '#b3d236'], template="plotly_dark"):
+def plotMultiScatter1(datapoints, title,xlabel,ylabel, names, colors=['#f7d468','purple', '#b3d236'], template="plotly_dark"):
 
-    fig = go.Figure()
+    layout = go.Layout(title=title,
+                       xaxis=dict(title=xlabel),
+                       yaxis=dict(title=ylabel)) 
+
+    fig = go.Figure(layout=layout)
 
     for point, name, col in zip(datapoints, names, colors):
         fig.add_trace(go.Scatter(x=point.get('x'),
@@ -146,18 +134,3 @@ def plotMultiScatter1(datapoints, title, names, colors=['#f7d468','purple', '#b3
 
     return fig
 
-# def plotScatterDouble(data, x , y,title,template= "plotly_dark"):
-
-#     # trace1 = (go.Scatter(data_frame= data, x= x, y=y,title=title))
-#     # trace2 = (go.Scatter(data_frame= data, x= x, y=y,title=title))
-#     fig = go.Figure()
-
-#     for point in zip(data):
-#         fig.add_trace( go.Scatter(x = point.index,y= point.values))
-#     # fig.add_trace(go.Scatter(data_frame= data2, x= x, y=y,title=title))
-
-#     # fig.update_traces( marker=dict(color = 'rgb(249, 6, 6)',
-#     #                          line=dict(color='rgb(0,0,0)',width=1.0)),mode='lines+markers')
-#     # fig.update_layout(template = template)
-
-#     return fig

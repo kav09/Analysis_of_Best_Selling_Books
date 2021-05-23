@@ -27,6 +27,7 @@
 
 16 price wise fiction vs non fiction (line chart)
 
+
 # from PIL import Image
 #img = Image.open('bf.png')
 #st.image(img)
@@ -119,3 +120,84 @@ https://bestanimations.com/media/guestbooks/1316324196sign-guestbook-animation-2
 # sidebar.markdown('<img style = "width:70px; margin-left : 35%; margin-top:-30%;" src= "https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"/>', unsafe_allow_html=True)
 
  #01011C #03020C #31333F
+
+
+ def del_report_form(fig):
+    # generateReport()
+    if current_report['delete_report']:
+        with st.spinner("Deleteing Report..."):
+            try:
+                path = 'reports/'+current_report['img_name']+'.png'
+                # fig.write_image(path)
+                report = Report(
+                    title=current_report['title'], desc=current_report['desc'], img_name=path)
+                sess.delete(report)
+                sess.commit()
+                st.success('Report Delete')
+            except Exception as e:
+                st.error('Something went Wrong')
+                print(e)
+
+del_this_report = st.checkbox("Delete Report",key='1')
+# if del_this_report:
+#     del_report_form(fig) 
+
+ # if st.checkbox('View Dataset'):
+    #     selDataset = st.selectbox(options=pathlist, label="Select Dataset to view")
+
+    #     if selDataset:
+    #         df = pd.read_csv(selDataset)
+    #         st.dataframe(df)
+
+
+# data1 =  analysis.freeBookAvgRating()
+    # data2 = analysis.BookAvgRating()
+    # st.plotly_chart(plotScatterDouble([data1,data2], x = 'Year', y='Reviews',title = 'Average Review Of free Books Over Year'),use_container_width=True)
+    # # # data2 = analysis.BookAvgRating()
+    # # # st.plotly_chart(plotScatterDouble(data2, x = 'Year', y='Reviews',title = 'Average Review Of free Books Over Year'),use_container_width=True)
+    # # #st.write('#### **2017 have the maximum Average Review of Free Book**')
+
+# def plotScatterDouble(data, x , y,title,template= "plotly_dark"):
+
+#     # trace1 = (go.Scatter(data_frame= data, x= x, y=y,title=title))
+#     # trace2 = (go.Scatter(data_frame= data, x= x, y=y,title=title))
+#     fig = go.Figure()
+
+#     for point in zip(data):
+#         fig.add_trace( go.Scatter(x = point.index,y= point.values))
+#     # fig.add_trace(go.Scatter(data_frame= data2, x= x, y=y,title=title))
+
+#     # fig.update_traces( marker=dict(color = 'rgb(249, 6, 6)',
+#     #                          line=dict(color='rgb(0,0,0)',width=1.0)),mode='lines+markers')
+#     # fig.update_layout(template = template)
+
+#     return fig
+
+
+
+# def plotSubplot(rows, cols, plots):
+
+#     fig = make_subplots(rows=rows, cols=cols)
+#     for row in range(rows):
+#         for col in range(cols):
+#             print(row*col+col+1)
+#             fig.add_trace(plots[row*col+col+1], row=row+1, col=col+1)
+#     return fig
+
+# def plotScatter(x,y):
+#     #fig = go.Figure()
+#     trace=go.Scatter(x=x,y=y)
+#     booklist = [trace]
+#     return booklist
+
+# ---------------------------- No of BookS PUblished Per Year
+
+    # st.subheader("Number Of The Books Published Per Year")
+    # data =  analysis.NoBookBestyear()
+    # st.plotly_chart(plotHistogram(data,"Number of Best Selling Books Published Per Year", 'Year', 'No. Of Books'),use_container_width=True)
+    # st.write("##### Every Year Nearly 50 Books were Published.")
+
+
+    # data = analysis.BookAuth()
+    # st.plotly_chart(plotBar(data.values,data.index,'No. of Free Book Published By Author','Author','Count',700,450,'ggplot2'),use_container_width=True)
+    # #st.write('#### **In 2014, maximum number of free books published. But In 2012 and after 2017 No free books were there.**')
