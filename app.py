@@ -139,9 +139,9 @@ st.markdown("""
         </style>
         """, unsafe_allow_html=True)
 
-
+@st.cache(suppress_st_warning=True)
 def viewDataset(pathlist):
-
+    
     with st.spinner("Loading Data..."):
         st.markdown(
             '<p class="head"> DataSet Used In This Project</p>', unsafe_allow_html=True)
