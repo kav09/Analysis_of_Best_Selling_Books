@@ -196,7 +196,8 @@ def viewDataset(pathlist):
 def analyseByGenre():
 
     # --------------------------------------------Fiction Vs Non Fiction-------------------------------
-
+    st.header("Analysis On the basis of Genre")
+    st.markdown("")
     with st.spinner("Loading Data..."):
         #st.markdown('<h3  style = "float:right; font-family: Book Antiqua; margin:20%;"> Fiction Vs Non Fiction Books</h1> <img style ="float:left; width:35px " src="https://blogs.glowscotland.org.uk/re/public/glencoatsprimary/uploads/sites/2371/2015/11/animated-book-image-00191.gif"" />' , unsafe_allow_html=True)
         st.markdown(
@@ -1025,6 +1026,7 @@ def analysebyRating():
 
 
 def ViewReport():
+    st.header("View Save Reports")
     reports = sess.query(Report).all()
     titleslist = [report.title for report in reports]
     selReport = st.selectbox(options=titleslist, label="Select Report")
