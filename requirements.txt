@@ -1,0 +1,7 @@
+streamlit==0.80.0
+SQLAlchemy @ file:///C:/ci/sqlalchemy_1603818908746/work
+numpy @ file:///C:/ci/numpy_and_numpy_base_1603466732592/work
+matplotlib @ file:///C:/ci/matplotlib-base_1603355780617/work
+numexpr==2.7.1
+plotly==4.14.3
+pandas @ file:///C:/ci/pandas_1602083338010/work
