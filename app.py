@@ -521,7 +521,7 @@ def analysebyReview():
     st.markdown("")
 
     n = st.select_slider(options=[0, 1000, 10000, 20000, 30000, 40000, 50000,
-                                  60000, 70000, 80000, 90000], label='Author having No. of Rating')
+                                  60000, 70000, 80000, 90000], label='Author having No. of Reviews')
     toprevauthor = st.selectbox(
         options=analysis.getTopReviewAuth(n), label="Select Author")
 
